@@ -18,6 +18,9 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        /* Import the API token from the local config file */
+        buildConfigField 'String', 'TMDB_API_TOKEN', TMDBApiToken
     }
 
     buildTypes {
@@ -35,6 +38,8 @@ android {
     }
     buildFeatures {
         compose true
+        /* BuildConfig is now disabled by default, it needs to be enabled manually */
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion '1.4.3'
@@ -62,6 +67,20 @@ dependencies {
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
+
+    implementation "androidx.compose.runtime:runtime-livedata:1.4.3"
+
+    // coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
+
+    // okHttp
+    implementation "com.squareup.okhttp3:okhttp:4.4.0"
+
+    //  retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.8.1'
+    implementation 'com.squareup.retrofit2:converter-moshi:2.8.1'
 
     // Glide
     implementation "com.github.bumptech.glide:compose:1.0.0-alpha.1"

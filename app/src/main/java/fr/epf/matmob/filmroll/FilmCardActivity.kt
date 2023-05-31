@@ -3,6 +3,7 @@ package fr.epf.matmob.filmroll
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,6 +17,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.SpanStyle
@@ -28,46 +31,30 @@ import com.bumptech.glide.integration.compose.GlideImage
 import fr.epf.matmob.filmroll.model.Film
 import fr.epf.matmob.filmroll.ui.theme.FilmrollTheme
 import java.net.URL
-import java.util.Calendar
 import kotlin.math.roundToInt
-import kotlin.time.Duration
 
 private const val TAG = "FilmCardActivity"
 
 class FilmCardActivity : ComponentActivity() {
+    private val filmViewModel: FilmViewModel by viewModels() {
+        FilmViewModelFactory((application as FilmApplication).repository)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val cal = Calendar.getInstance()
-        val demoFilm = Film(
-            0,
-            "Test film",
-            "Tested film",
-            "Once upon a time…",
-            cal,
-            Duration.parseIsoString("PT42M"),
-            "poster.png",
-            "",
-            7.5f,
-            23,
-            "None Collection",
-            50000,
-            listOf("Test", "Experimental", "Demo"),
-            URL("https://example.org"),
-            "imdb_00",
-            "la",
-            listOf("Paper Co", "Shadow Ltd"),
-            listOf("an", "oc"),
-            listOf("la", "qc"),
-            "In production",
-            false
-        )
+        val filmId = intent.extras?.getInt("TMDBFilmId")
+        if (filmId != null) {
+            filmViewModel.getMovie(filmId)
+        } else {
+            finish()
+        }
         setContent {
             FilmrollTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    FilmDetails(film = demoFilm)
+                    val film by filmViewModel.film.observeAsState()
+                    film?.let { FilmDetails(film = it) }
                 }
             }
         }
@@ -114,7 +101,6 @@ fun Hyperlink(link: URL, modifier: Modifier = Modifier) {
             uriHandler.openUri(stringAnnotation.item)
         }
     })
-
 }
 
 @OptIn(ExperimentalGlideComposeApi::class)
@@ -122,7 +108,11 @@ fun Hyperlink(link: URL, modifier: Modifier = Modifier) {
 fun FilmDetails(film: Film) {
     Column {
         GlideImage(
-            model = "https://placehold.co/1600x900.png",
+            model = if (film.backdrop_path.isEmpty()) {
+                "https://placehold.co/1600x900.png"
+            } else {
+                "https://image.tmdb.org/t/p/w780${film.backdrop_path}"
+            },
             contentDescription = "${film.title}'s backdrop image",
             modifier = Modifier.fillMaxWidth()
         )

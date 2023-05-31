@@ -27,6 +27,7 @@ class MainActivity : ComponentActivity() {
                     Column {
                         Button(onClick = {
                             val intent = Intent(this@MainActivity, FilmCardActivity::class.java)
+                            intent.putExtra("TMDBFilmId", 64)
                             startActivity(intent)
                         }) {
                             Text(text = "Open a film card")
