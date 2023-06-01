@@ -1,6 +1,8 @@
 package fr.epf.matmob.filmroll.network.model
 
+import android.util.Log
 import fr.epf.matmob.filmroll.model.Film
+import fr.epf.matmob.filmroll.model.LiteFilm
 import java.net.URL
 import java.util.Calendar
 import kotlin.time.DurationUnit
@@ -76,3 +78,39 @@ data class ResponseProductionCountry(val iso_3166_1: String, val name: String)
 data class ResponseSpokenLanguage(
     val english_name: String, val iso_639_1: String, val name: String
 )
+
+data class ResponseSearchResults(
+    val page: Int, val results: List<ResponseShortFilm>, val total_pages: Int, val total_result: Int
+)
+
+data class ResponseShortFilm(
+    val adult: Boolean,
+    val backdrop_path: String,
+    val genre_ids: List<Int>,
+    val id: Int,
+    val original_language: String,
+    val overview: String,
+    val popularity: Float,
+    val poster_path: String,
+    val release_date: String,
+    val title: String,
+    val video: Boolean,
+    val vote_average: Float,
+    val vote_count: Int,
+) {
+    fun toLiteFilm(): LiteFilm {
+        Log.d(TAG, "toLiteFilm: converting $this")
+        val cal = Calendar.getInstance()
+        return LiteFilm(
+            id,
+            title,
+            overview,
+            cal,
+            original_language,
+            poster_path ?: "",
+            vote_average,
+            vote_count,
+            adult
+        )
+    }
+}

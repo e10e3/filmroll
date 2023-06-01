@@ -17,6 +17,11 @@
         android:theme="@style/Theme.Filmroll"
         tools:targetApi="31">
         <activity
+            android:name=".FilmResultsList"
+            android:exported="false"
+            android:label="@string/title_activity_film_results_list"
+            android:theme="@style/Theme.Filmroll" />
+        <activity
             android:name=".FilmCardActivity"
             android:exported="false"
             android:label="@string/title_activity_film_card"

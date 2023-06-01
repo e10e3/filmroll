@@ -26,11 +26,11 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Column {
                         Button(onClick = {
-                            val intent = Intent(this@MainActivity, FilmCardActivity::class.java)
-                            intent.putExtra("TMDBFilmId", 64)
+                            val intent = Intent(this@MainActivity, FilmResultsList::class.java)
+                            intent.putExtra("searchQuery", "monty python")
                             startActivity(intent)
                         }) {
-                            Text(text = "Open a film card")
+                            Text(text = "Search for films")
                         }
                     }
                 }
