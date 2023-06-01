@@ -43,7 +43,7 @@ class FilmCardActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val filmId = intent.extras?.getInt("TMDBFilmId")
         if (filmId != null) {
-            filmViewModel.getMovie(filmId)
+            filmViewModel.getFilm(filmId)
         } else {
             finish()
         }

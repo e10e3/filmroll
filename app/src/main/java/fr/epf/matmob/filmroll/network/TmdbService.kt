@@ -11,7 +11,7 @@ interface TmdbService {
         "Accept: application/json", "Authorization: Bearer ${BuildConfig.TMDB_API_TOKEN}"
     )
     @GET("movie/{id}")
-    suspend fun getMovie(
+    suspend fun getFilm(
         @Path("id") id: Int
     ): ResponseFilm
 }

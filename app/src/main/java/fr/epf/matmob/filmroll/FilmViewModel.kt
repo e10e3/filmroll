@@ -15,14 +15,14 @@ class FilmViewModel(private val repository: FilmRepository) : ViewModel() {
     private val _film = MutableLiveData<Film>()
     val film: LiveData<Film> = _film
 
-    fun getMovie(id: Int) {
+    fun getFilm(id: Int) {
         viewModelScope.launch {
             try {
-                val film = repository.getMovie(id)
+                val film = repository.getFilm(id)
                 _film.value = film
-                Log.d(TAG, "getMovie: $film")
+                Log.d(TAG, "getFilm: $film")
             } catch (e: Exception) {
-                Log.e(TAG, "getMovie: ${e.message}", e)
+                Log.e(TAG, "getFilm: ${e.message}", e)
             }
         }
     }
