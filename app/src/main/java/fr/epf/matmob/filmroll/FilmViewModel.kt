@@ -6,15 +6,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import fr.epf.matmob.filmroll.model.Film
+import fr.epf.matmob.filmroll.model.ExtendedFilmInfo
 import fr.epf.matmob.filmroll.model.LiteFilm
 import kotlinx.coroutines.launch
 
 private const val TAG = "FilmViewModel"
 
 class FilmViewModel(private val repository: FilmRepository) : ViewModel() {
-    private val _film = MutableLiveData<Film>()
-    val film: LiveData<Film> = _film
+    private val _filmInfo = MutableLiveData<ExtendedFilmInfo>()
+    val filmInfo: LiveData<ExtendedFilmInfo> = _filmInfo
 
     private val _foundFilms = MutableLiveData<List<LiteFilm>>()
     val foundFilms : LiveData<List<LiteFilm>> = _foundFilms
@@ -23,7 +23,7 @@ class FilmViewModel(private val repository: FilmRepository) : ViewModel() {
         viewModelScope.launch {
             try {
                 val film = repository.getFilm(id)
-                _film.value = film
+                _filmInfo.value = film
                 Log.d(TAG, "getFilm: $film")
             } catch (e: Exception) {
                 Log.e(TAG, "getFilm: ${e.message}", e)

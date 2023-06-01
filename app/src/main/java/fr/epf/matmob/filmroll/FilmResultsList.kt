@@ -84,14 +84,14 @@ fun FilmResult(film: LiteFilm) {
                     Intent(
                         activity,
                         FilmCardActivity::class.java
-                    ).putExtra("TMDBFilmId", film.tmdb_id)
+                    ).putExtra("TMDBFilmId", film.tmdbId)
                 )
             },
         shape = MaterialTheme.shapes.large
     ) {
         Row(Modifier.padding(3.dp)) {
             GlideImage(
-                model = "https://image.tmdb.org/t/p/w342${film.poster_path}",
+                model = "https://image.tmdb.org/t/p/w342${film.posterPath}",
                 contentDescription = "${film.title}'s poster image",
                 modifier = Modifier.width(96.dp)
             )
@@ -99,7 +99,7 @@ fun FilmResult(film: LiteFilm) {
             Column {
                 Text(text = film.title, style = MaterialTheme.typography.titleMedium)
                 Text(
-                    text = "${film.release_date[1]}",
+                    text = "${film.releaseDate[1]}",
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Text(

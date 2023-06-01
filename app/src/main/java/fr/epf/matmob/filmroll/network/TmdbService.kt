@@ -1,7 +1,7 @@
 package fr.epf.matmob.filmroll.network
 
 import fr.epf.matmob.filmroll.BuildConfig
-import fr.epf.matmob.filmroll.network.model.ResponseFilm
+import fr.epf.matmob.filmroll.network.model.ResponseExtendedFilm
 import fr.epf.matmob.filmroll.network.model.ResponseSearchResults
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -12,10 +12,10 @@ interface TmdbService {
     @Headers(
         "Accept: application/json", "Authorization: Bearer ${BuildConfig.TMDB_API_TOKEN}"
     )
-    @GET("movie/{id}")
+    @GET("movie/{id}?append_to_response=credits,recommendations")
     suspend fun getFilm(
         @Path("id") id: Int
-    ): ResponseFilm
+    ): ResponseExtendedFilm
 
     @Headers(
         "Accept: application/json", "Authorization: Bearer ${BuildConfig.TMDB_API_TOKEN}"
