@@ -13,4 +13,7 @@ class FilmRepository(private val APIService: TmdbService) {
 
     suspend fun searchFilm(query: String): List<LiteFilm> =
         APIService.searchFilm(query).results.stream().map { it.toLiteFilm() }.toList()
+
+    suspend fun getPopularFilms(): List<LiteFilm> =
+        APIService.getPopularFilms().results.stream().map { it.toLiteFilm() }.toList()
 }

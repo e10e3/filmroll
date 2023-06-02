@@ -24,4 +24,10 @@ interface TmdbService {
     suspend fun searchFilm(
         @Query("query") query: String
     ): ResponseSearchResults
+
+    @Headers(
+        "Accept: application/json", "Authorization: Bearer ${BuildConfig.TMDB_API_TOKEN}"
+    )
+    @GET("movie/popular")
+    suspend fun getPopularFilms(): ResponseSearchResults
 }

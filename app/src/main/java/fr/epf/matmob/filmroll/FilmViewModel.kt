@@ -19,6 +19,9 @@ class FilmViewModel(private val repository: FilmRepository) : ViewModel() {
     private val _foundFilms = MutableLiveData<List<LiteFilm>>()
     val foundFilms : LiveData<List<LiteFilm>> = _foundFilms
 
+    private val _popularFilms = MutableLiveData<List<LiteFilm>>()
+    val popularFilms : LiveData<List<LiteFilm>> = _popularFilms
+
     fun getFilm(id: Int) {
         viewModelScope.launch {
             try {
@@ -34,12 +37,24 @@ class FilmViewModel(private val repository: FilmRepository) : ViewModel() {
     fun searchFilm(query: String) {
         viewModelScope.launch {
             try {
-                Log.d(TAG, "searchMovie: API call with param $query")
+                Log.d(TAG, "searchFilm: API call with param $query")
                 val foundFilms = repository.searchFilm(query)
-                Log.d(TAG, "searchMovie: $foundFilms")
+                Log.d(TAG, "searchFilm: $foundFilms")
                 _foundFilms.value = foundFilms
             } catch (e: Exception) {
-                Log.e(TAG, "searchMovie: ${e.message}", e)
+                Log.e(TAG, "searchFilm: ${e.message}", e)
+            }
+        }
+    }
+
+    fun getPopularFilms() {
+        viewModelScope.launch {
+            try {
+                val popularFilms = repository.getPopularFilms()
+                Log.d(TAG, "getPopularFilms: $popularFilms")
+                _popularFilms.value = popularFilms
+            } catch (e: Exception) {
+                Log.e(TAG, "getPopularFilms: ${e.message}", e)
             }
         }
     }
