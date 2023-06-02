@@ -1,13 +1,10 @@
 package fr.epf.matmob.filmroll
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,7 +25,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -38,8 +34,8 @@ import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import fr.epf.matmob.filmroll.model.Film
-import fr.epf.matmob.filmroll.model.LiteFilm
 import fr.epf.matmob.filmroll.model.Person
+import fr.epf.matmob.filmroll.ui.components.FilmCarousel
 import fr.epf.matmob.filmroll.ui.theme.FilmrollTheme
 import java.net.URL
 import kotlin.math.roundToInt
@@ -76,7 +72,10 @@ class FilmCardActivity : ComponentActivity() {
                                 Spacer(modifier = Modifier.height(12.dp))
                                 PersonList(persons = it.crew, title = "Crew members")
                                 Spacer(modifier = Modifier.height(16.dp))
-                                RecommendedFilmsCarrousel(films = it.recommendations)
+                                FilmCarousel(
+                                    films = it.recommendations,
+                                    title = "Recommended films"
+                                )
                                 Spacer(modifier = Modifier.height(8.dp))
                             }
                         }
@@ -204,40 +203,10 @@ fun PersonProfile(person: Person) {
 @Composable
 fun PersonList(persons: List<Person>, title: String) {
     Column {
-        Text(text = title)
+        Text(text = title, style = MaterialTheme.typography.titleMedium)
         LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             items(persons) {
                 PersonProfile(person = it)
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalGlideComposeApi::class)
-@Composable
-fun RecommendedFilmsCarrousel(films: List<LiteFilm>) {
-    val activity = LocalContext.current as Activity
-    Column {
-        Text(text = "Recommended films", style = MaterialTheme.typography.titleMedium)
-        LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            items(films) {
-                Column(modifier = Modifier.clickable {
-                    activity.startActivity(
-                        Intent(
-                            activity, FilmCardActivity::class.java
-                        ).putExtra("TMDBFilmId", it.tmdbId)
-                    )
-                }) {
-                    GlideImage(
-                        model = if (it.posterPath.isEmpty()) {
-                            "https://placehold.co/100x178.png"
-                        } else {
-                            "https://image.tmdb.org/t/p/w342${it.posterPath}"
-                        },
-                        contentDescription = "${it.title}'s poster image",
-                        modifier = Modifier.width(96.dp)
-                    )
-                }
             }
         }
     }
