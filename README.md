@@ -6,6 +6,13 @@ An Android app to browse films.
 The app uses the [Movie Database's API](https://developer.themoviedb.org/docs) to get
 information about the films.
 
+Features
+---------
+
+- Search for films
+- Display a film's details
+- List recommended films depending on the selected one
+
 Configuring
 ------------
 
