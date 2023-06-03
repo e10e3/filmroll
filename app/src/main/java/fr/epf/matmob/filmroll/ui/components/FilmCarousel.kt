@@ -5,8 +5,8 @@ import android.content.Intent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -28,8 +28,11 @@ fun FilmCarousel(films: List<LiteFilm>, title: String) {
     val activity = LocalContext.current as Activity
     val columnWidth = 111.dp
     Column {
-        Text(text = title, style = MaterialTheme.typography.titleMedium)
-        Spacer(modifier = Modifier.height(1.dp))
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(bottom = 4.dp)
+        )
         LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             items(films) {
                 Column(modifier = Modifier
