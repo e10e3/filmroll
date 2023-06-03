@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -23,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
@@ -78,6 +80,7 @@ fun FilmResult(film: LiteFilm) {
     Surface(
         tonalElevation = 2.dp,
         modifier = Modifier
+            .fillMaxWidth()
             .padding(4.dp)
             .clickable {
                 activity.startActivity(
@@ -91,7 +94,11 @@ fun FilmResult(film: LiteFilm) {
     ) {
         Row(Modifier.padding(3.dp)) {
             GlideImage(
-                model = "https://image.tmdb.org/t/p/w342${film.posterPath}",
+                model = if (film.posterPath.isEmpty()) {
+                    "https://placehold.co/342x513.png"
+                } else {
+                    "https://image.tmdb.org/t/p/w342${film.posterPath}"
+                },
                 contentDescription = "${film.title}'s poster image",
                 modifier = Modifier.width(96.dp)
             )
@@ -104,7 +111,8 @@ fun FilmResult(film: LiteFilm) {
                 )
                 Text(
                     text = film.synopsis,
-                    maxLines = 3,
+                    maxLines = 5,
+                    overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
