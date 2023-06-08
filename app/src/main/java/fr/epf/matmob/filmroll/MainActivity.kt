@@ -17,6 +17,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -95,6 +96,12 @@ class MainActivity : ComponentActivity() {
                             val popularFilms by viewModel.popularFilms.observeAsState()
                             popularFilms?.let {
                                 FilmCarousel(films = it, title = "Currently popular films")
+                            }
+
+                            Button(onClick = {
+                                startActivity(Intent(this@MainActivity, QRScanActivity::class.java))
+                            }) {
+                                Text(text = "Scan a QR code")
                             }
                         }
                     }
