@@ -6,12 +6,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -51,48 +51,51 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    Column {
-                        Spacer(modifier = Modifier.height(128.dp))
-                        val (value, onValueChange) = remember { mutableStateOf("") }
-                        TextField(
-                            value = value,
-                            onValueChange = onValueChange,
-                            singleLine = true,
-                            shape = MaterialTheme.shapes.extraLarge,
-                            placeholder = { Text(text = "Search a film") },
-                            trailingIcon = {
-                                Icon(
-                                    imageVector = Icons.Filled.Clear,
-                                    contentDescription = null,
-                                    modifier = Modifier.clickable { onValueChange("") }
+                    LazyColumn {
+                        item {
+                            Spacer(modifier = Modifier.height(128.dp))
+                            val (value, onValueChange) = remember { mutableStateOf("") }
+                            TextField(
+                                value = value,
+                                onValueChange = onValueChange,
+                                singleLine = true,
+                                shape = MaterialTheme.shapes.extraLarge,
+                                placeholder = { Text(text = "Search a film") },
+                                trailingIcon = {
+                                    Icon(
+                                        imageVector = Icons.Filled.Clear,
+                                        contentDescription = null,
+                                        modifier = Modifier.clickable { onValueChange("") }
+                                    )
+                                },
+                                leadingIcon = {
+                                    Icon(
+                                        imageVector = Icons.Filled.Search,
+                                        contentDescription = null
+                                    )
+                                },
+                                keyboardActions = KeyboardActions(onSearch = {
+                                    val intent =
+                                        Intent(this@MainActivity, FilmResultsList::class.java)
+                                    intent.putExtra("searchQuery", value)
+                                    startActivity(intent)
+                                }),
+                                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp)
+                                    .shadow(elevation = 8.dp),
+                                colors = TextFieldDefaults.colors(
+                                    focusedIndicatorColor = Color.Transparent,
+                                    unfocusedIndicatorColor = Color.Transparent
                                 )
-                            },
-                            leadingIcon = {
-                                Icon(
-                                    imageVector = Icons.Filled.Search,
-                                    contentDescription = null
-                                )
-                            },
-                            keyboardActions = KeyboardActions(onSearch = {
-                                val intent = Intent(this@MainActivity, FilmResultsList::class.java)
-                                intent.putExtra("searchQuery", value)
-                                startActivity(intent)
-                            }),
-                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp)
-                                .shadow(elevation = 8.dp),
-                            colors = TextFieldDefaults.colors(
-                                focusedIndicatorColor = Color.Transparent,
-                                unfocusedIndicatorColor = Color.Transparent
                             )
-                        )
-                        Spacer(modifier = Modifier.height(96.dp))
+                            Spacer(modifier = Modifier.height(96.dp))
 
-                        val popularFilms by viewModel.popularFilms.observeAsState()
-                        popularFilms?.let {
-                            FilmCarousel(films = it, title = "Currently popular films")
+                            val popularFilms by viewModel.popularFilms.observeAsState()
+                            popularFilms?.let {
+                                FilmCarousel(films = it, title = "Currently popular films")
+                            }
                         }
                     }
                 }
