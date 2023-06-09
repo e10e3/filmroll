@@ -92,11 +92,6 @@ fun DisplayFilmCard(viewModel: FilmViewModel, filmId: Int?) {
     Scaffold(topBar = {
         filmIsFavourite?.let {
             var isFavourite by rememberSaveable { mutableStateOf(it) }
-            if (it) {
-                Log.d(TAG, "onCreate: is fav")
-            } else {
-                Log.d(TAG, "onCreate: is NOT fav")
-            }
             FilmCardTopBar(
                 viewModel = viewModel,
                 filmId!!,
@@ -135,7 +130,12 @@ fun FilmCardTopBar(
     favouriteState: Boolean,
     onFavouriteStateChange: (Boolean) -> Unit
 ) {
-    TopAppBar(title = { Text(text = "Film Details") }, actions = {
+    TopAppBar(title = {
+        Text(
+            text = "Film Details",
+            style = MaterialTheme.typography.headlineMedium
+        )
+    }, actions = {
         IconButton(onClick = {
             val newFavState = !favouriteState
             onFavouriteStateChange(newFavState)
@@ -200,11 +200,13 @@ fun Hyperlink(link: URL, modifier: Modifier = Modifier) {
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun FilmDetails(film: Film) {
+fun FilmDetails(
+    film: Film
+) {
     Column {
         GlideImage(
             model = if (film.backdropPath.isEmpty()) {
-                "https://placehold.co/1600x900.png"
+                "https://placehold.co/1280x720.png"
             } else {
                 "https://image.tmdb.org/t/p/w1280${film.backdropPath}"
             },
@@ -286,9 +288,21 @@ fun PersonList(persons: List<Person>, title: String) {
 fun GenrePillPreview() {
     FilmrollTheme {
         Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            GenrePill(genre = "Science Fiction")
-            GenrePill(genre = "Action")
-            GenrePill(genre = "Thriller")
+            GenrePill(genre = Genre(0, "Science Fiction"))
+            GenrePill(genre = Genre(0, "Action"))
+            GenrePill(genre = Genre(0, "Thriller"))
+        }
+    }
+}
+
+@Preview
+@Composable
+fun PersonProfilePreview() {
+    FilmrollTheme {
+        val person = Person(0, "John Doe", "Camera", "")
+        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+            PersonProfile(person = person)
+            PersonProfile(person = person)
         }
     }
 }
