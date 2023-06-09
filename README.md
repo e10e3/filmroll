@@ -12,6 +12,13 @@ Features
 - Search for films
 - Display a film's details
 - List recommended films depending on the selected one
+- Scan QR codes with a film's ID
+- Set films as favourites
+
+## Other features
+
+- Nice colour theme
+- Has an app icon
 
 Configuring
 ------------
@@ -75,4 +82,8 @@ recommendations.
 License
 -------
 
-This project is distributed under the GPL v3 license, or any later version.
+This project is distributed under the GPL v3 licence, or any later version. See the LICENCE file.
+
+Some code comes from examples of the Android documentation, distributed under the Apache 2 licence.
+
+The material icons use in the app are licensed under the Apache 2 licence as well.
