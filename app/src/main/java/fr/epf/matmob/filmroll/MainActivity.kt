@@ -1,5 +1,6 @@
 package fr.epf.matmob.filmroll
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -24,6 +25,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -48,67 +50,69 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.getPopularFilms()
         setContent {
             FilmrollTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    LazyColumn {
-                        item {
-                            Spacer(modifier = Modifier.height(128.dp))
-                            val (value, onValueChange) = remember { mutableStateOf("") }
-                            TextField(
-                                value = value,
-                                onValueChange = onValueChange,
-                                singleLine = true,
-                                shape = MaterialTheme.shapes.extraLarge,
-                                placeholder = { Text(text = "Search a film") },
-                                trailingIcon = {
-                                    Icon(
-                                        imageVector = Icons.Filled.Clear,
-                                        contentDescription = null,
-                                        modifier = Modifier.clickable { onValueChange("") }
-                                    )
-                                },
-                                leadingIcon = {
-                                    Icon(
-                                        imageVector = Icons.Filled.Search,
-                                        contentDescription = null
-                                    )
-                                },
-                                keyboardActions = KeyboardActions(onSearch = {
-                                    val intent =
-                                        Intent(this@MainActivity, FilmResultsList::class.java)
-                                    intent.putExtra("searchQuery", value)
-                                    startActivity(intent)
-                                }),
-                                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp)
-                                    .shadow(elevation = 8.dp),
-                                colors = TextFieldDefaults.colors(
-                                    focusedIndicatorColor = Color.Transparent,
-                                    unfocusedIndicatorColor = Color.Transparent
-                                )
-                            )
-                            Spacer(modifier = Modifier.height(96.dp))
-
-                            val popularFilms by viewModel.popularFilms.observeAsState()
-                            popularFilms?.let {
-                                FilmCarousel(films = it, title = "Currently popular films")
-                            }
-
-                            Button(onClick = {
-                                startActivity(Intent(this@MainActivity, QRScanActivity::class.java))
-                            }) {
-                                Text(text = "Scan a QR code")
-                            }
-                        }
-                    }
+                    DisplayHomeScreen(viewModel = viewModel, this)
                 }
+            }
+        }
+    }
+}
+
+@Composable
+fun DisplayHomeScreen(viewModel: FilmViewModel, context: Context) {
+    viewModel.getPopularFilms()
+    LazyColumn {
+        item {
+            Spacer(modifier = Modifier.height(128.dp))
+            val (value, onValueChange) = remember { mutableStateOf("") }
+            TextField(
+                value = value,
+                onValueChange = onValueChange,
+                singleLine = true,
+                shape = MaterialTheme.shapes.extraLarge,
+                placeholder = { Text(text = "Search a film") },
+                trailingIcon = {
+                    Icon(imageVector = Icons.Filled.Clear,
+                        contentDescription = null,
+                        modifier = Modifier.clickable { onValueChange("") })
+                },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Filled.Search, contentDescription = null
+                    )
+                },
+                keyboardActions = KeyboardActions(onSearch = {
+                    val intent =
+                        Intent(context, FilmResultsList::class.java)
+                    intent.putExtra("searchQuery", value)
+                    context.startActivity(intent)
+                }),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+                    .shadow(elevation = 8.dp),
+                colors = TextFieldDefaults.colors(
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent
+                )
+            )
+            Spacer(modifier = Modifier.height(96.dp))
+
+            val popularFilms by viewModel.popularFilms.observeAsState()
+            popularFilms?.let {
+                FilmCarousel(films = it, title = "Currently popular films")
+            }
+
+            Button(onClick = {
+                context.startActivity(Intent(context, QRScanActivity::class.java))
+            }) {
+                Text(text = "Scan a QR code")
             }
         }
     }
