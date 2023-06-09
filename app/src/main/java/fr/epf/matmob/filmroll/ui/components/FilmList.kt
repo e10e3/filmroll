@@ -71,7 +71,10 @@ fun FilmListItem(film: LiteFilm) {
                     maxLines = 2
                 )
                 Text(
-                    text = film.releaseDate.substring(0, 4),
+                    text = if (film.releaseDate.isNotBlank()) film.releaseDate.substring(
+                        0,
+                        4
+                    ) else "Unknown",
                     style = MaterialTheme.typography.bodyMedium,
                 )
                 Spacer(modifier = Modifier.height(2.dp))

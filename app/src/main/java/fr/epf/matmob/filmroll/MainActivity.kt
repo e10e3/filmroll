@@ -44,7 +44,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
 import fr.epf.matmob.filmroll.state.FilmApplication
 import fr.epf.matmob.filmroll.state.FilmViewModel
 import fr.epf.matmob.filmroll.state.FilmViewModelFactory
@@ -85,6 +84,9 @@ fun HomeStructure(viewModel: FilmViewModel, context: Context) {
             )
 
             1 -> FavouritesList(viewModel = viewModel, Modifier.padding(padValues))
+            /* Le scan de QR code reste une activité car la vie de la vue est liée à l'activité,
+            pas au composable. Si seul le composable est utilisé, la caméra ne se ferme pas lors
+            du changement d'affichage et ne se ré-affiche pas lors du retour au scan. */
             2 -> context.startActivity(Intent(context, QRScanActivity::class.java))
         }
 

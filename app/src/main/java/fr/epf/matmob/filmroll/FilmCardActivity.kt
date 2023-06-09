@@ -80,7 +80,7 @@ class FilmCardActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    DisplayFilmCard(viewModel = filmViewModel, filmId)
+                    filmId?.let { DisplayFilmCard(viewModel = filmViewModel, it) }
                 }
             }
         }
@@ -88,7 +88,7 @@ class FilmCardActivity : ComponentActivity() {
 }
 
 @Composable
-fun DisplayFilmCard(viewModel: FilmViewModel, filmId: Int?) {
+fun DisplayFilmCard(viewModel: FilmViewModel, filmId: Int) {
     val filmInfo by viewModel.filmInfo.observeAsState()
     val filmIsFavourite by viewModel.isFilmFavourite.observeAsState()
     Scaffold(topBar = {
@@ -96,7 +96,7 @@ fun DisplayFilmCard(viewModel: FilmViewModel, filmId: Int?) {
             filmInfo?.film?.toLiteFilm()?.let { it1 ->
                 FilmCardTopBar(
                     viewModel = viewModel,
-                    filmId!!,
+                    filmId,
                     it,
                     it1
                 )
