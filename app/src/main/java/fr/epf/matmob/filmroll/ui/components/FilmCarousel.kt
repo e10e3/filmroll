@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -50,7 +51,8 @@ fun FilmCarousel(films: List<LiteFilm>, title: String) {
                         } else {
                             "https://image.tmdb.org/t/p/w342${it.posterPath}"
                         },
-                        contentDescription = "${it.title}'s poster image"
+                        contentDescription = "${it.title}'s poster image",
+                        modifier = Modifier.fillMaxWidth().height(175.dp)
                     )
                     Text(
                         text = it.title,
