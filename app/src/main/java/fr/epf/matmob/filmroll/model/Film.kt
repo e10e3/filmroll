@@ -18,7 +18,7 @@ data class Film(
     val voteScore: Float,
     val voteCount: Int,
     val collection: String,
-    val budget: Int,
+    val budget: Long,
     val genres: List<Genre>,
     val homepage: URL,
     val imdbId: String,
