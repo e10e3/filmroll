@@ -5,7 +5,6 @@ import android.content.Intent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -16,6 +15,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -41,7 +41,10 @@ fun FilmCarousel(films: List<LiteFilm>, title: String) {
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(bottom = 4.dp, top = 8.dp, start = 8.dp)
             )
-            LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(horizontal = 2.dp)) {
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.padding(horizontal = 2.dp)
+            ) {
                 items(films) {
                     Column(modifier = Modifier
                         .clickable {
@@ -59,9 +62,7 @@ fun FilmCarousel(films: List<LiteFilm>, title: String) {
                                 "https://image.tmdb.org/t/p/w342${it.posterPath}"
                             },
                             contentDescription = "${it.title}'s poster image",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(175.dp)
+                            modifier = Modifier.shadow(elevation = 3.dp)
                         )
                         Text(
                             text = it.title,

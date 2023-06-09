@@ -56,8 +56,14 @@ fun FilmListItem(film: LiteFilm) {
                 contentDescription = "${film.title}'s poster image",
                 modifier = Modifier.width(96.dp)
             )
-            Spacer(modifier = Modifier.width(8.dp))
-            Column {
+            Column(
+                modifier = Modifier.padding(
+                    start = 8.dp,
+                    top = 2.dp,
+                    end = 8.dp,
+                    bottom = 2.dp
+                )
+            ) {
                 Text(
                     text = film.title,
                     style = MaterialTheme.typography.titleMedium,
