@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Filmroll</string>
-    <string name="title_activity_film_card">FilmCardActivity</string>
-    <string name="title_activity_film_results_list">FilmResultsList</string>
-    <string name="title_activity_qrscan">QRScanActivity</string>
+    <string name="title_activity_film_card" translatable="false">FilmCardActivity</string>
+    <string name="title_activity_film_results_list" translatable="false">FilmResultsList</string>
+    <string name="title_activity_qrscan" translatable="false">QRScanActivity</string>
     <string name="searchbar_placeholder">Search a film</string>
     <string name="popular_films_title">Currently popular films</string>
     <string name="home_icon_label">Home</string>
@@ -17,7 +17,7 @@
     <string name="film_card_screen_name">Film Details</string>
     <string name="is_favourite_icon_description">This film is a favourite</string>
     <string name="is_not_favourite_icon_description">This film is not a favourite</string>
-    <string name="release_date_label">Published: %1$s</string>
+    <string name="release_date_label">Released: %1$s</string>
     <string name="vote_score_label">Score: %1$d%%</string>
     <string name="duration_label">Duration: %1$s</string>
     <string name="unknown_date_replacement">Unknown</string>

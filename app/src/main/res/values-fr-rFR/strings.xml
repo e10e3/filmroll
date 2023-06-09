@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pellicule</string>
+    <string name="searchbar_placeholder">Chercher un film</string>
+    <string name="popular_films_title">Film populaires en ce moment</string>
+    <string name="home_icon_label">Accueil</string>
+    <string name="home_icon_description">Icône de maison</string>
+    <string name="favourite_icon_description">Icône de cœur</string>
+    <string name="favourites_icon_label">Favoris</string>
+    <string name="qr_code_icon_description">Icône de code QR</string>
+    <string name="qr_scan_icon_label">Scan QR</string>
+    <string name="cast_members_list_title">Rôles</string>
+    <string name="crew_members_list_title">Équipe technique</string>
+    <string name="search_query_label">Recherche : %1$s</string>
+    <string name="film_card_screen_name">Détails du film</string>
+    <string name="is_favourite_icon_description">Ce film est un favori</string>
+    <string name="is_not_favourite_icon_description">Ce film n\'est pas un favori</string>
+    <string name="release_date_label">Sortie : %1$s</string>
+    <string name="vote_score_label">Score : %1$d %%</string>
+    <string name="duration_label">Durée : %1$s</string>
+    <string name="unknown_date_replacement">Inconnue</string>
+    <string name="ask_camera_permission_short">L\'usage de la caméra est important pour cette application. Autorisez à utiliser la caméra pour continuer.</string>
+    <string name="ask_camera_permission_long">La permission d\'utilisre la caméra est n\"cessaire pour faire fonctionner cette fonctionnalité. Veuillez accorder la permission. Vous pouvez avoir besoin d\'aller dans le paramètres pour le faire.</string>
+    <string name="enable_camera_button_text">Activer la caméra</string>
+    <string name="recommended_films_title">Films recommendés</string>
+</resources>
