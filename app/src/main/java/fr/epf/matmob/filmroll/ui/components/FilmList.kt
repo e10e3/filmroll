@@ -58,15 +58,22 @@ fun FilmListItem(film: LiteFilm) {
             )
             Spacer(modifier = Modifier.width(8.dp))
             Column {
-                Text(text = film.title, style = MaterialTheme.typography.titleMedium)
                 Text(
-                    text = film.releaseDate,
-                    style = MaterialTheme.typography.bodyMedium
+                    text = film.title,
+                    style = MaterialTheme.typography.titleMedium,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 2
                 )
+                Text(
+                    text = film.releaseDate.substring(0, 4),
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+                Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = film.synopsis,
                     overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.bodyMedium
+                    maxLines = 4,
+                    style = MaterialTheme.typography.bodySmall
                 )
             }
         }

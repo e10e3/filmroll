@@ -39,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -137,7 +138,7 @@ fun FilmCardTopBar(
     TopAppBar(title = {
         Text(
             text = "Film Details",
-            style = MaterialTheme.typography.headlineMedium
+            style = MaterialTheme.typography.headlineSmall
         )
     }, actions = {
         IconButton(onClick = {
@@ -164,12 +165,11 @@ fun FilmCardTopBar(
 fun GenrePill(genre: Genre) {
     Surface(
         shape = MaterialTheme.shapes.extraSmall,
-        color = MaterialTheme.colorScheme.secondaryContainer
+        color = MaterialTheme.colorScheme.secondary
     ) {
         Text(
             text = genre.name,
             style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSecondaryContainer,
             modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
         )
     }
@@ -217,31 +217,42 @@ fun FilmDetails(
             contentDescription = "${film.title}'s backdrop image",
             modifier = Modifier.fillMaxWidth()
         )
-        Text(text = film.title, style = MaterialTheme.typography.headlineMedium)
-        LazyRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            items(film.genres) {
-                GenrePill(genre = it)
+        Surface(
+            shape = MaterialTheme.shapes.medium,
+            color = MaterialTheme.colorScheme.secondaryContainer,
+            modifier = Modifier
+                .padding(horizontal = 4.dp, vertical = 2.dp)
+                .fillMaxWidth(),
+            shadowElevation = 2.dp
+        ) {
+            Column(modifier = Modifier.padding(all = 8.dp)) {
+                Text(text = film.title, style = MaterialTheme.typography.headlineMedium)
+                LazyRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                    items(film.genres) {
+                        GenrePill(genre = it)
+                    }
+                }
+                Text(
+                    text = "Published: ${film.releaseDate}",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Text(
+                    text = "Score: ${(film.voteScore * 10).roundToInt()} %",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                Text(
+                    text = film.synopsis,
+                    style = MaterialTheme.typography.bodyMedium,
+                    textAlign = TextAlign.Justify
+                )
+                Text(
+                    text = "Duration: ${film.duration}",
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(top = 2.dp)
+                )
+                Hyperlink(link = film.homepage)
             }
         }
-        Text(
-            text = "Publication : ${film.releaseDate}", style = MaterialTheme.typography.bodyMedium
-        )
-        Hyperlink(link = film.homepage)
-        Text(text = film.synopsis, style = MaterialTheme.typography.bodyMedium)
-        Text(
-            text = "Score : ${(film.voteScore * 10).roundToInt()} %",
-            style = MaterialTheme.typography.bodyMedium
-        )
-        Text(text = "${film.duration}", style = MaterialTheme.typography.bodyMedium)
-
-        /*
-        - Language
-        - Synopsis
-        - User rating
-        - Age rating
-        - Length (duration)
-        - Publication year
-        */
     }
 }
 
@@ -251,7 +262,7 @@ fun PersonProfile(person: Person) {
     Surface(
         shape = MaterialTheme.shapes.medium,
         shadowElevation = 4.dp,
-        color = MaterialTheme.colorScheme.secondaryContainer
+        color = MaterialTheme.colorScheme.tertiaryContainer
     ) {
         Row(
             modifier = Modifier.padding(end = 15.dp)
@@ -277,7 +288,7 @@ fun PersonProfile(person: Person) {
 
 @Composable
 fun PersonList(persons: List<Person>, title: String) {
-    Column {
+    Column(modifier = Modifier.padding(horizontal = 6.dp)) {
         Text(text = title, style = MaterialTheme.typography.titleMedium)
         LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             items(persons) {
