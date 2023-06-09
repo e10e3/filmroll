@@ -19,7 +19,6 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.QrCodeScanner
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -36,14 +35,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import fr.epf.matmob.filmroll.state.FilmApplication
 import fr.epf.matmob.filmroll.state.FilmViewModel
 import fr.epf.matmob.filmroll.state.FilmViewModelFactory
@@ -74,10 +74,19 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun HomeStructure(viewModel: FilmViewModel, context: Context) {
-    Scaffold(bottomBar = { AppNavigationBar() }, topBar = { HomeTopBar() }) { padValues ->
-        DisplayHomeScreen(
-            viewModel = viewModel, context = context, modifier = Modifier.padding(padValues)
-        )
+    var selectedItem by rememberSaveable { mutableStateOf(0) }
+
+    Scaffold(bottomBar = { AppNavigationBar(selectedItem) { selectedItem = it } },
+        topBar = { HomeTopBar() }) { padValues ->
+        when (selectedItem) {
+            0 -> DisplayHomeScreen(
+                viewModel = viewModel, context = context, modifier = Modifier.padding(padValues)
+            )
+
+            1 -> FavouritesList(viewModel = viewModel, Modifier.padding(padValues))
+            2 -> context.startActivity(Intent(context, QRScanActivity::class.java))
+        }
+
     }
 }
 
@@ -123,17 +132,9 @@ fun DisplayHomeScreen(viewModel: FilmViewModel, context: Context, modifier: Modi
             popularFilms?.let {
                 FilmCarousel(films = it, title = "Currently popular films")
             }
-
-            Button(onClick = {
-                context.startActivity(Intent(context, QRScanActivity::class.java))
-            }) {
-                Text(text = "Scan a QR code")
-            }
         }
     }
 }
-
-data class NavItem(val label: String, val icon: ImageVector)
 
 @Composable
 fun AppNavigationBar() {
@@ -145,12 +146,26 @@ fun AppNavigationBar() {
     )
 
     NavigationBar {
-        items.forEachIndexed { index, item ->
-            NavigationBarItem(icon = { Icon(item.icon, contentDescription = item.label) },
-                label = { Text(item.label, style = MaterialTheme.typography.labelSmall) },
-                selected = selectedItem == index,
-                onClick = { selectedItem = index })
-        }
+        NavigationBarItem(icon = { Icon(Icons.Default.Home, contentDescription = "Home icon") },
+            label = { Text("Home", style = MaterialTheme.typography.labelSmall) },
+            selected = selectedIndex == 0,
+            onClick = { onSelectItem(0) })
+        NavigationBarItem(icon = {
+            Icon(
+                Icons.Default.Favorite, contentDescription = "Heart icon"
+            )
+        },
+            label = { Text("Favourites", style = MaterialTheme.typography.labelSmall) },
+            selected = selectedIndex == 1,
+            onClick = { onSelectItem(1) })
+        NavigationBarItem(icon = {
+            Icon(
+                Icons.Default.QrCodeScanner, contentDescription = "QR code icon"
+            )
+        },
+            label = { Text("QR Scan", style = MaterialTheme.typography.labelSmall) },
+            selected = selectedIndex == 2,
+            onClick = { onSelectItem(2) })
     }
 }
 
@@ -169,6 +184,6 @@ fun HomeTopBar() {
 @Composable
 fun NavigationBarPreview() {
     FilmrollTheme {
-        AppNavigationBar()
+        AppNavigationBar(0) {}
     }
 }
