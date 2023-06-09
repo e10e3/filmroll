@@ -33,6 +33,9 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import fr.epf.matmob.filmroll.state.FilmApplication
+import fr.epf.matmob.filmroll.state.FilmViewModel
+import fr.epf.matmob.filmroll.state.FilmViewModelFactory
 import fr.epf.matmob.filmroll.ui.components.FilmCarousel
 import fr.epf.matmob.filmroll.ui.theme.FilmrollTheme
 

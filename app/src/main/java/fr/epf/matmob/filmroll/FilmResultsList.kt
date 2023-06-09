@@ -29,6 +29,9 @@ import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import fr.epf.matmob.filmroll.model.LiteFilm
+import fr.epf.matmob.filmroll.state.FilmApplication
+import fr.epf.matmob.filmroll.state.FilmViewModel
+import fr.epf.matmob.filmroll.state.FilmViewModelFactory
 import fr.epf.matmob.filmroll.ui.theme.FilmrollTheme
 
 private const val TAG = "FilmResultsList"

@@ -1,4 +1,4 @@
-package fr.epf.matmob.filmroll
+package fr.epf.matmob.filmroll.state
 
 import fr.epf.matmob.filmroll.database.FilmDao
 import fr.epf.matmob.filmroll.model.ExtendedFilmInfo

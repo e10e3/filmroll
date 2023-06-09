@@ -48,6 +48,9 @@ import fr.epf.matmob.filmroll.model.FavouriteFilm
 import fr.epf.matmob.filmroll.model.Film
 import fr.epf.matmob.filmroll.model.Genre
 import fr.epf.matmob.filmroll.model.Person
+import fr.epf.matmob.filmroll.state.FilmApplication
+import fr.epf.matmob.filmroll.state.FilmViewModel
+import fr.epf.matmob.filmroll.state.FilmViewModelFactory
 import fr.epf.matmob.filmroll.ui.components.FilmCarousel
 import fr.epf.matmob.filmroll.ui.theme.FilmrollTheme
 import java.net.URL
