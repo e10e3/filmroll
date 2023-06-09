@@ -22,6 +22,8 @@ Features
 - Nice colour theme
 - Has an app icon
 - View the favourites offline
+- Material design 3
+- See actor and crew list for a film
 
 Configuring
 ------------
