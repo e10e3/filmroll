@@ -5,7 +5,6 @@ import fr.epf.matmob.filmroll.model.Film
 import fr.epf.matmob.filmroll.model.Genre
 import fr.epf.matmob.filmroll.model.LiteFilm
 import fr.epf.matmob.filmroll.model.Person
-import java.net.URL
 import kotlin.streams.toList
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
@@ -57,7 +56,7 @@ data class ResponseExtendedFilm(
                 belongs_to_collection?.name ?: "",
                 budget,
                 genres.map { it.toGenre() }.toList(),
-                URL(homepage.ifEmpty { "http://example.org" }),
+                homepage.ifEmpty { "" },
                 imdb_id,
                 original_language,
                 production_companies.map { it.name }.toList(),

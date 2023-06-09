@@ -56,7 +56,6 @@ import fr.epf.matmob.filmroll.state.FilmViewModel
 import fr.epf.matmob.filmroll.state.FilmViewModelFactory
 import fr.epf.matmob.filmroll.ui.components.FilmCarousel
 import fr.epf.matmob.filmroll.ui.theme.FilmrollTheme
-import java.net.URL
 import kotlin.math.roundToInt
 
 private const val TAG = "FilmCardActivity"
@@ -179,26 +178,29 @@ fun GenrePill(genre: Genre) {
  * Heavily inspired from the web.
  */
 @Composable
-fun Hyperlink(link: URL, modifier: Modifier = Modifier) {
-    val annotatedString = buildAnnotatedString {
-        val linkLength = link.toString().length
-        append(link.toString())
-        addStyle(
-            style = SpanStyle(
-                color = MaterialTheme.colorScheme.tertiary,
-                textDecoration = TextDecoration.Underline
-            ), start = 0, end = linkLength
-        )
-        addStringAnnotation(
-            tag = "URL", annotation = link.toString(), start = 0, end = linkLength
-        )
-    }
-    val uriHandler = LocalUriHandler.current
-    ClickableText(modifier = modifier, text = annotatedString, onClick = {
-        annotatedString.getStringAnnotations("URL", it, it).firstOrNull()?.let { stringAnnotation ->
-            uriHandler.openUri(stringAnnotation.item)
+fun Hyperlink(link: String, modifier: Modifier = Modifier) {
+    if (link.isNotEmpty()) {
+        val annotatedString = buildAnnotatedString {
+            val linkLength = link.length
+            append(link)
+            addStyle(
+                style = SpanStyle(
+                    color = MaterialTheme.colorScheme.tertiary,
+                    textDecoration = TextDecoration.Underline
+                ), start = 0, end = linkLength
+            )
+            addStringAnnotation(
+                tag = "URL", annotation = link, start = 0, end = linkLength
+            )
         }
-    })
+        val uriHandler = LocalUriHandler.current
+        ClickableText(modifier = modifier, text = annotatedString, onClick = {
+            annotatedString.getStringAnnotations("URL", it, it).first()
+                .let { stringAnnotation ->
+                    uriHandler.openUri(stringAnnotation.item)
+                }
+        })
+    }
 }
 
 @OptIn(ExperimentalGlideComposeApi::class)

@@ -2,7 +2,6 @@ package fr.epf.matmob.filmroll.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.net.URL
 import kotlin.time.Duration
 
 /**
@@ -22,7 +21,7 @@ data class Film(
     val collection: String,
     val budget: Long,
     val genres: List<Genre>,
-    val homepage: URL,
+    val homepage: String,
     val imdbId: String,
     val originalLanguage: String,
     val productionCompanies: List<String>,
