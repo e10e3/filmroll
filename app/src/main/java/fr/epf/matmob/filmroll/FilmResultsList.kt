@@ -106,7 +106,7 @@ fun FilmResult(film: LiteFilm) {
             Column {
                 Text(text = film.title, style = MaterialTheme.typography.titleMedium)
                 Text(
-                    text = "${film.releaseDate[1]}",
+                    text = film.releaseDate,
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Text(

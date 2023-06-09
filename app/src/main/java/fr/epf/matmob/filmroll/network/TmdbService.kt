@@ -14,7 +14,7 @@ interface TmdbService {
     )
     @GET("movie/{id}?append_to_response=credits,recommendations")
     suspend fun getFilm(
-        @Path("id") id: Int
+        @Path("id") id: Int, @Query("language") language: String = "en-GB"
     ): ResponseExtendedFilm
 
     @Headers(
@@ -22,12 +22,14 @@ interface TmdbService {
     )
     @GET("search/movie")
     suspend fun searchFilm(
-        @Query("query") query: String
+        @Query("query") query: String, @Query("language") language: String = "en-GB", @Query("region") region: String = "GB"
     ): ResponseSearchResults
 
     @Headers(
         "Accept: application/json", "Authorization: Bearer ${BuildConfig.TMDB_API_TOKEN}"
     )
     @GET("movie/popular")
-    suspend fun getPopularFilms(): ResponseSearchResults
+    suspend fun getPopularFilms(
+        @Query("language") language: String = "en-GB", @Query("region") region: String = "GB"
+    ): ResponseSearchResults
 }

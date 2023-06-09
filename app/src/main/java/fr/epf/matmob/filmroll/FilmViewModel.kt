@@ -5,8 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import fr.epf.matmob.filmroll.model.ExtendedFilmInfo
+import fr.epf.matmob.filmroll.model.FavouriteFilm
 import fr.epf.matmob.filmroll.model.LiteFilm
 import kotlinx.coroutines.launch
 
@@ -17,10 +19,15 @@ class FilmViewModel(private val repository: FilmRepository) : ViewModel() {
     val filmInfo: LiveData<ExtendedFilmInfo> = _filmInfo
 
     private val _foundFilms = MutableLiveData<List<LiteFilm>>()
-    val foundFilms : LiveData<List<LiteFilm>> = _foundFilms
+    val foundFilms: LiveData<List<LiteFilm>> = _foundFilms
 
     private val _popularFilms = MutableLiveData<List<LiteFilm>>()
-    val popularFilms : LiveData<List<LiteFilm>> = _popularFilms
+    val popularFilms: LiveData<List<LiteFilm>> = _popularFilms
+
+    val favouriteFilms: LiveData<List<FavouriteFilm>> = repository.favouriteFilms.asLiveData()
+
+    private val _isFilmFavourite = MutableLiveData<Boolean>()
+    val isFilmFavourite: LiveData<Boolean> = _isFilmFavourite
 
     fun getFilm(id: Int) {
         viewModelScope.launch {
@@ -56,6 +63,18 @@ class FilmViewModel(private val repository: FilmRepository) : ViewModel() {
             } catch (e: Exception) {
                 Log.e(TAG, "getPopularFilms: ${e.message}", e)
             }
+        }
+    }
+
+    fun insert(film: FavouriteFilm) {
+        viewModelScope.launch {
+            repository.insert(film)
+        }
+    }
+
+    fun isFilmFavourite(filmId: Int) {
+        viewModelScope.launch {
+            _isFilmFavourite.value = repository.isFilmFavourite(filmId)
         }
     }
 }

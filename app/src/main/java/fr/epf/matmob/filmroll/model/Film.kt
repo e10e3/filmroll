@@ -1,7 +1,6 @@
 package fr.epf.matmob.filmroll.model
 
 import java.net.URL
-import java.util.Calendar
 import kotlin.time.Duration
 
 /**
@@ -12,7 +11,7 @@ data class Film(
     val title: String,
     val originalTitle: String,
     val synopsis: String,
-    val releaseDate: Calendar,
+    val releaseDate: String,
     val duration: Duration,
     val posterPath: String,
     val backdropPath: String,
@@ -20,7 +19,7 @@ data class Film(
     val voteCount: Int,
     val collection: String,
     val budget: Int,
-    val genres: List<String>,
+    val genres: List<Genre>,
     val homepage: URL,
     val imdbId: String,
     val originalLanguage: String,
@@ -28,8 +27,22 @@ data class Film(
     val productionCountries: List<String>,
     val languages: List<String>,
     val status: String,
-    val adult: Boolean,
-)
+    val adult: Boolean
+) {
+    fun toLiteFilm() {
+        LiteFilm(
+            tmdbId,
+            title,
+            synopsis,
+            releaseDate,
+            originalLanguage,
+            posterPath,
+            voteScore,
+            voteCount,
+            adult
+        )
+    }
+}
 
 /**
  * A cutback version for the Film class, with the fields present in the
@@ -39,7 +52,7 @@ data class LiteFilm(
     val tmdbId: Int,
     val title: String,
     val synopsis: String,
-    val releaseDate: Calendar,
+    val releaseDate: String,
     val originalLanguage: String,
     val posterPath: String,
     val voteScore: Float,

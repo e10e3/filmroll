@@ -1,19 +1,31 @@
 package fr.epf.matmob.filmroll
 
+import fr.epf.matmob.filmroll.database.FilmDao
 import fr.epf.matmob.filmroll.model.ExtendedFilmInfo
+import fr.epf.matmob.filmroll.model.FavouriteFilm
 import fr.epf.matmob.filmroll.model.LiteFilm
 import fr.epf.matmob.filmroll.network.TmdbService
+import kotlinx.coroutines.flow.Flow
 import kotlin.streams.toList
 
 /**
  * Allows to seamlessly access the data, may it be from the APi or the database.
  */
-class FilmRepository(private val APIService: TmdbService) {
-    suspend fun getFilm(id: Int): ExtendedFilmInfo = APIService.getFilm(id).toExtendedFilmInfo()
+class FilmRepository(private val APIService: TmdbService, private val dao: FilmDao) {
+
+    val favouriteFilms: Flow<List<FavouriteFilm>> = dao.getFavourites()
+
+    suspend fun getFilm(id: Int): ExtendedFilmInfo =
+        APIService.getFilm(id, "fr-FR").toExtendedFilmInfo()
 
     suspend fun searchFilm(query: String): List<LiteFilm> =
-        APIService.searchFilm(query).results.stream().map { it.toLiteFilm() }.toList()
+        APIService.searchFilm(query, "fr-FR", "FR").results.stream().map { it.toLiteFilm() }
+            .toList()
 
     suspend fun getPopularFilms(): List<LiteFilm> =
-        APIService.getPopularFilms().results.stream().map { it.toLiteFilm() }.toList()
+        APIService.getPopularFilms("fr-FR", "FR").results.stream().map { it.toLiteFilm() }.toList()
+
+    suspend fun insert(film: FavouriteFilm) = dao.insert(film)
+
+    suspend fun isFilmFavourite(id: Int): Boolean = dao.isFavourite(id)
 }

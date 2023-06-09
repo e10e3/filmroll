@@ -2,10 +2,10 @@ package fr.epf.matmob.filmroll.network.model
 
 import fr.epf.matmob.filmroll.model.ExtendedFilmInfo
 import fr.epf.matmob.filmroll.model.Film
+import fr.epf.matmob.filmroll.model.Genre
 import fr.epf.matmob.filmroll.model.LiteFilm
 import fr.epf.matmob.filmroll.model.Person
 import java.net.URL
-import java.util.Calendar
 import kotlin.streams.toList
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
@@ -42,14 +42,13 @@ data class ResponseExtendedFilm(
     val recommendations: ResponseRecommendations
 ) {
     fun toExtendedFilmInfo(): ExtendedFilmInfo {
-        val cal = Calendar.getInstance()
         return ExtendedFilmInfo(
             Film(
                 id,
                 title,
                 original_title,
                 overview,
-                cal,
+                release_date,
                 runtime.toDuration(DurationUnit.MINUTES),
                 poster_path ?: "",
                 backdrop_path ?: "",
@@ -57,7 +56,7 @@ data class ResponseExtendedFilm(
                 vote_count,
                 belongs_to_collection?.name ?: "",
                 budget,
-                genres.map { it.name }.toList(),
+                genres.map { it.toGenre() }.toList(),
                 URL(homepage.ifEmpty { "http://example.org" }),
                 imdb_id,
                 original_language,
@@ -78,7 +77,10 @@ data class ResponseCollection(
     val id: Int, val name: String, val poster_path: String, val backdrop_path: String
 )
 
-data class ResponseGenres(val id: Int, val name: String)
+data class ResponseGenres(val id: Int, val name: String) {
+    fun toGenre(): Genre = Genre(id, name)
+}
+
 data class ResponseProductionCompany(
     val id: Int, val logo_path: String, val name: String, val origin_country: String
 )
@@ -111,12 +113,11 @@ data class ResponseShortFilm(
     val vote_count: Int,
 ) {
     fun toLiteFilm(): LiteFilm {
-        val cal = Calendar.getInstance()
         return LiteFilm(
             id,
             title,
             overview,
-            cal,
+            release_date,
             original_language,
             poster_path ?: "",
             vote_average,

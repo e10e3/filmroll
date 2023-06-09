@@ -87,13 +87,13 @@ class FilmCardActivity : ComponentActivity() {
 }
 
 @Composable
-fun GenrePill(genre: String) {
+fun GenrePill(genre: Genre) {
     Surface(
         shape = MaterialTheme.shapes.extraSmall,
         color = MaterialTheme.colorScheme.secondaryContainer
     ) {
         Text(
-            text = genre,
+            text = genre.name,
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSecondaryContainer,
             modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
@@ -148,8 +148,7 @@ fun FilmDetails(film: Film) {
             }
         }
         Text(
-            text = "Publication : ${film.releaseDate[1]}",
-            style = MaterialTheme.typography.bodyMedium
+            text = "Publication : ${film.releaseDate}", style = MaterialTheme.typography.bodyMedium
         )
         Hyperlink(link = film.homepage)
         Text(text = film.synopsis, style = MaterialTheme.typography.bodyMedium)

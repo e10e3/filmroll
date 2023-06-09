@@ -1,6 +1,7 @@
 package fr.epf.matmob.filmroll
 
 import android.app.Application
+import fr.epf.matmob.filmroll.database.FilmDatabase
 import fr.epf.matmob.filmroll.network.TmdbService
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -13,5 +14,6 @@ class FilmApplication : Application() {
             MoshiConverterFactory.create()
         ).client(client).build()
     private val service = retrofit.create(TmdbService::class.java)
-    val repository by lazy { FilmRepository(service) }
+    val database by lazy { FilmDatabase.getDatabase(this) }
+    val repository by lazy { FilmRepository(service, database.filmDao()) }
 }
