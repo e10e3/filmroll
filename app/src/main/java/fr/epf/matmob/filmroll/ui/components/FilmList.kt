@@ -18,11 +18,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import fr.epf.matmob.filmroll.FilmCardActivity
+import fr.epf.matmob.filmroll.R
 import fr.epf.matmob.filmroll.model.LiteFilm
 
 @OptIn(ExperimentalGlideComposeApi::class)
@@ -74,7 +76,7 @@ fun FilmListItem(film: LiteFilm) {
                     text = if (film.releaseDate.isNotBlank()) film.releaseDate.substring(
                         0,
                         4
-                    ) else "Unknown",
+                    ) else stringResource(R.string.unknown_date_replacement),
                     style = MaterialTheme.typography.bodyMedium,
                 )
                 Spacer(modifier = Modifier.height(2.dp))

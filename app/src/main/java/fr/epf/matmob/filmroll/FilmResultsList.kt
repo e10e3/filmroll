@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import fr.epf.matmob.filmroll.state.FilmApplication
 import fr.epf.matmob.filmroll.state.FilmViewModel
 import fr.epf.matmob.filmroll.state.FilmViewModelFactory
@@ -62,5 +63,10 @@ fun SearchScreenStructure(viewModel: FilmViewModel, query: String) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ResultsTopBar(query: String) {
-    TopAppBar(title = { Text(text = "Query: $query", style = MaterialTheme.typography.headlineSmall) })
+    TopAppBar(title = {
+        Text(
+            text = stringResource(id = R.string.search_query_label, query),
+            style = MaterialTheme.typography.headlineSmall
+        )
+    })
 }

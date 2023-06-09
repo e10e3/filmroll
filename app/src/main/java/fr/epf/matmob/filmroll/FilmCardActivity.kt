@@ -37,6 +37,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
@@ -95,10 +96,7 @@ fun DisplayFilmCard(viewModel: FilmViewModel, filmId: Int) {
         filmIsFavourite?.let {
             filmInfo?.film?.toLiteFilm()?.let { it1 ->
                 FilmCardTopBar(
-                    viewModel = viewModel,
-                    filmId,
-                    it,
-                    it1
+                    viewModel = viewModel, filmId, it, it1
                 )
             }
         }
@@ -110,12 +108,17 @@ fun DisplayFilmCard(viewModel: FilmViewModel, filmId: Int) {
 
                     FilmDetails(film = it.film)
                     Spacer(modifier = Modifier.height(16.dp))
-                    PersonList(persons = it.cast, title = "Cast members")
+                    PersonList(
+                        persons = it.cast, title = stringResource(R.string.cast_members_list_title)
+                    )
                     Spacer(modifier = Modifier.height(12.dp))
-                    PersonList(persons = it.crew, title = "Crew members")
+                    PersonList(
+                        persons = it.crew, title = stringResource(R.string.crew_members_list_title)
+                    )
                     Spacer(modifier = Modifier.height(16.dp))
                     FilmCarousel(
-                        films = it.recommendations, title = "Recommended films"
+                        films = it.recommendations,
+                        title = stringResource(R.string.recommended_films_title)
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                 }
@@ -129,15 +132,12 @@ fun DisplayFilmCard(viewModel: FilmViewModel, filmId: Int) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FilmCardTopBar(
-    viewModel: FilmViewModel,
-    filmId: Int,
-    favouriteState: Boolean,
-    film: LiteFilm
+    viewModel: FilmViewModel, filmId: Int, favouriteState: Boolean, film: LiteFilm
 ) {
     var isFavourite by rememberSaveable { mutableStateOf(favouriteState) }
     TopAppBar(title = {
         Text(
-            text = "Film Details",
+            text = stringResource(R.string.film_card_screen_name),
             style = MaterialTheme.typography.headlineSmall
         )
     }, actions = {
@@ -149,12 +149,12 @@ fun FilmCardTopBar(
             if (isFavourite) {
                 Icon(
                     imageVector = Icons.Filled.Star,
-                    contentDescription = "This film is a favourite"
+                    contentDescription = stringResource(R.string.is_favourite_icon_description)
                 )
             } else {
                 Icon(
                     imageVector = Icons.TwoTone.Star,
-                    contentDescription = "This film is not a favourite"
+                    contentDescription = stringResource(R.string.is_not_favourite_icon_description)
                 )
             }
         }
@@ -164,8 +164,7 @@ fun FilmCardTopBar(
 @Composable
 fun GenrePill(genre: Genre) {
     Surface(
-        shape = MaterialTheme.shapes.extraSmall,
-        color = MaterialTheme.colorScheme.secondary
+        shape = MaterialTheme.shapes.extraSmall, color = MaterialTheme.colorScheme.secondary
     ) {
         Text(
             text = genre.name,
@@ -233,12 +232,14 @@ fun FilmDetails(
                     }
                 }
                 Text(
-                    text = "Published: ${film.releaseDate}",
-                    style = MaterialTheme.typography.bodyMedium
+                    text = stringResource(
+                        id = R.string.release_date_label, film.releaseDate
+                    ), style = MaterialTheme.typography.bodyMedium
                 )
                 Text(
-                    text = "Score: ${(film.voteScore * 10).roundToInt()} %",
-                    style = MaterialTheme.typography.bodyLarge
+                    text = stringResource(
+                        id = R.string.vote_score_label, (film.voteScore * 10).roundToInt()
+                    ), style = MaterialTheme.typography.bodyLarge
                 )
                 Text(
                     text = film.synopsis,
@@ -246,7 +247,7 @@ fun FilmDetails(
                     textAlign = TextAlign.Justify
                 )
                 Text(
-                    text = "Duration: ${film.duration}",
+                    text = stringResource(id = R.string.duration_label, film.duration.toString()),
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(top = 2.dp)
                 )

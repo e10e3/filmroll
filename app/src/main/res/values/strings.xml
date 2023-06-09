@@ -3,4 +3,26 @@
     <string name="title_activity_film_card">FilmCardActivity</string>
     <string name="title_activity_film_results_list">FilmResultsList</string>
     <string name="title_activity_qrscan">QRScanActivity</string>
+    <string name="searchbar_placeholder">Search a film</string>
+    <string name="popular_films_title">Currently popular films</string>
+    <string name="home_icon_label">Home</string>
+    <string name="home_icon_description">Home icon</string>
+    <string name="favourite_icon_description">Heart icon</string>
+    <string name="favourites_icon_label">Favourites</string>
+    <string name="qr_code_icon_description">QR code icon</string>
+    <string name="qr_scan_icon_label">QR Scan</string>
+    <string name="cast_members_list_title">Cast members</string>
+    <string name="crew_members_list_title">Crew members</string>
+    <string name="search_query_label">Query: %1$s</string>
+    <string name="film_card_screen_name">Film Details</string>
+    <string name="is_favourite_icon_description">This film is a favourite</string>
+    <string name="is_not_favourite_icon_description">This film is not a favourite</string>
+    <string name="release_date_label">Published: %1$s</string>
+    <string name="vote_score_label">Score: %1$d%%</string>
+    <string name="duration_label">Duration: %1$s</string>
+    <string name="unknown_date_replacement">Unknown</string>
+    <string name="ask_camera_permission_short">The camera is important for this app. Please grant the permission.</string>
+    <string name="ask_camera_permission_long">Camera permission required for this feature to be available. Please grant the permission. You may need to go to the system settings to enable the permission.</string>
+    <string name="enable_camera_button_text">Enable the camera</string>
+    <string name="recommended_films_title">Recommended films</string>
 </resources>

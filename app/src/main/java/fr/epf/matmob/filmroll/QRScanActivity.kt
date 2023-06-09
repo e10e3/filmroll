@@ -34,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -85,18 +86,16 @@ fun AskPermissions(permState: PermissionState) {
         val textToShow = if (permState.status.shouldShowRationale) {
             // If the user has denied the permission but the rationale can be shown,
             // then gently explain why the app requires this permission
-            "The camera is important for this app. Please grant the permission."
+            stringResource(R.string.ask_camera_permission_short)
         } else {
             // If it's the first time the user lands on this feature, or the user
             // doesn't want to be asked again for this permission, explain that the
             // permission is required
-            "Camera permission required for this feature to be available. " +
-                    "Please grant the permission. You may need to go to the" +
-                    "system settings to enable the permission."
+            stringResource(R.string.ask_camera_permission_long)
         }
         Text(textToShow)
         Button(onClick = { permState.launchPermissionRequest() }) {
-            Text("Enable the camera")
+            Text(stringResource(R.string.enable_camera_button_text))
         }
     }
 }
