@@ -148,6 +148,6 @@ fun CameraView(activityContext: Context) {
                 Log.i(TAG, "CameraView: ${e.message}", e)
             }
             previewView
-        })
+        }, modifier = Modifier.fillMaxSize())
     }
 }
