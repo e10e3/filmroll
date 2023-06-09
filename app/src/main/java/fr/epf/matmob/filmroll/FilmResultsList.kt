@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -85,6 +86,7 @@ fun FilmResult(film: LiteFilm) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(4.dp)
+            .height(142.dp)
             .clickable {
                 activity.startActivity(
                     Intent(
@@ -95,7 +97,7 @@ fun FilmResult(film: LiteFilm) {
             },
         shape = MaterialTheme.shapes.large
     ) {
-        Row(Modifier.padding(3.dp)) {
+        Row {
             GlideImage(
                 model = if (film.posterPath.isEmpty()) {
                     "https://placehold.co/342x513.png"
@@ -114,7 +116,6 @@ fun FilmResult(film: LiteFilm) {
                 )
                 Text(
                     text = film.synopsis,
-                    maxLines = 5,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.bodyMedium
                 )
