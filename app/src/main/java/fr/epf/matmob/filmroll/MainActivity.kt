@@ -38,6 +38,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -120,8 +121,8 @@ fun DisplayHomeScreen(viewModel: FilmViewModel, context: Context, modifier: Modi
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp, top = 64.dp, bottom = 96.dp),
-                // .shadow(elevation = 8.dp),
+                    .padding(start = 16.dp, end = 16.dp, top = 64.dp, bottom = 90.dp)
+                    .shadow(elevation = 8.dp, shape = MaterialTheme.shapes.extraLarge),
                 colors = TextFieldDefaults.colors(
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent
@@ -137,14 +138,7 @@ fun DisplayHomeScreen(viewModel: FilmViewModel, context: Context, modifier: Modi
 }
 
 @Composable
-fun AppNavigationBar() {
-    var selectedItem by remember { mutableStateOf(0) }
-    val items = listOf(
-        NavItem("Home", Icons.Default.Home),
-        NavItem("Favourites", Icons.Default.Favorite),
-        NavItem("QR Scan", Icons.Default.QrCodeScanner)
-    )
-
+fun AppNavigationBar(selectedIndex: Int, onSelectItem: (Int) -> Unit) {
     NavigationBar {
         NavigationBarItem(icon = { Icon(Icons.Default.Home, contentDescription = "Home icon") },
             label = { Text("Home", style = MaterialTheme.typography.labelSmall) },

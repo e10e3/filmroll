@@ -32,7 +32,8 @@ fun FilmCarousel(films: List<LiteFilm>, title: String) {
     Surface(
         color = MaterialTheme.colorScheme.primaryContainer,
         modifier = Modifier.padding(horizontal = 4.dp),
-        shape = MaterialTheme.shapes.medium
+        shape = MaterialTheme.shapes.medium,
+        shadowElevation = 3.dp
     ) {
         Column {
             Text(

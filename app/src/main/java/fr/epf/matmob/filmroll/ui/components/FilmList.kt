@@ -30,7 +30,8 @@ import fr.epf.matmob.filmroll.model.LiteFilm
 fun FilmListItem(film: LiteFilm) {
     val activity = LocalContext.current as Activity
     Surface(
-        tonalElevation = 2.dp,
+        shadowElevation = 2.dp,
+        color = MaterialTheme.colorScheme.primaryContainer,
         modifier = Modifier
             .fillMaxWidth()
             .padding(4.dp)
