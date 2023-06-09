@@ -139,7 +139,8 @@ fun FilmCardTopBar(
         IconButton(onClick = {
             val newFavState = !favouriteState
             onFavouriteStateChange(newFavState)
-            viewModel.insert(FavouriteFilm(filmId, newFavState))
+            viewModel.insertFavourite(FavouriteFilm(filmId, newFavState))
+
         }) {
             if (favouriteState) {
                 Icon(

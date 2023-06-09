@@ -26,6 +26,8 @@ class FilmViewModel(private val repository: FilmRepository) : ViewModel() {
 
     val favouriteFilms: LiveData<List<FavouriteFilm>> = repository.favouriteFilms.asLiveData()
 
+    val favouriteLiteFilms: LiveData<List<LiteFilm>> = repository.favouriteLiteFilms.asLiveData()
+
     private val _isFilmFavourite = MutableLiveData<Boolean>()
     val isFilmFavourite: LiveData<Boolean> = _isFilmFavourite
 
@@ -66,9 +68,15 @@ class FilmViewModel(private val repository: FilmRepository) : ViewModel() {
         }
     }
 
-    fun insert(film: FavouriteFilm) {
+    fun insertFavourite(film: FavouriteFilm) {
         viewModelScope.launch {
-            repository.insert(film)
+            repository.insertFavourite(film)
+        }
+    }
+
+    fun insertLiteFilm(film: LiteFilm) {
+        viewModelScope.launch {
+            repository.insertLiteFilm(film)
         }
     }
 

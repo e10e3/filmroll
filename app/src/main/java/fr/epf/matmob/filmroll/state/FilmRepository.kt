@@ -15,6 +15,8 @@ class FilmRepository(private val APIService: TmdbService, private val dao: FilmD
 
     val favouriteFilms: Flow<List<FavouriteFilm>> = dao.getFavourites()
 
+    val favouriteLiteFilms: Flow<List<LiteFilm>> = dao.getFavouriteLiteFilms()
+
     suspend fun getFilm(id: Int): ExtendedFilmInfo =
         APIService.getFilm(id, "fr-FR").toExtendedFilmInfo()
 
@@ -25,7 +27,9 @@ class FilmRepository(private val APIService: TmdbService, private val dao: FilmD
     suspend fun getPopularFilms(): List<LiteFilm> =
         APIService.getPopularFilms("fr-FR", "FR").results.stream().map { it.toLiteFilm() }.toList()
 
-    suspend fun insert(film: FavouriteFilm) = dao.insert(film)
+    suspend fun insertFavourite(film: FavouriteFilm) = dao.insertFavourite(film)
+
+    suspend fun insertLiteFilm(film: LiteFilm) = dao.insertLiteFilm(film)
 
     suspend fun isFilmFavourite(id: Int): Boolean = dao.isFavourite(id)
 }

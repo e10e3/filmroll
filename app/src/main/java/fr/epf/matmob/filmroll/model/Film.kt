@@ -1,5 +1,7 @@
 package fr.epf.matmob.filmroll.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.net.URL
 import kotlin.time.Duration
 
@@ -48,8 +50,9 @@ data class Film(
  * A cutback version for the Film class, with the fields present in the
  * search results of the TMDB API.
  */
+@Entity
 data class LiteFilm(
-    val tmdbId: Int,
+    @PrimaryKey val tmdbId: Int,
     val title: String,
     val synopsis: String,
     val releaseDate: String,
