@@ -6,6 +6,8 @@ An Android app to browse films.
 The app uses the [Movie Database's API](https://developer.themoviedb.org/docs) to get
 information about the films.
 
+<img alt="THe app's home screen" src="app_screen.png" width="250">
+
 Features
 ---------
 
@@ -19,6 +21,7 @@ Features
 
 - Nice colour theme
 - Has an app icon
+- View the favourites offline
 
 Configuring
 ------------
