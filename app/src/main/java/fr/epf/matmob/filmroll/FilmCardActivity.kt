@@ -18,12 +18,23 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.twotone.Star
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.SpanStyle
@@ -33,7 +44,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import fr.epf.matmob.filmroll.model.FavouriteFilm
 import fr.epf.matmob.filmroll.model.Film
+import fr.epf.matmob.filmroll.model.Genre
 import fr.epf.matmob.filmroll.model.Person
 import fr.epf.matmob.filmroll.ui.components.FilmCarousel
 import fr.epf.matmob.filmroll.ui.theme.FilmrollTheme
@@ -52,6 +65,7 @@ class FilmCardActivity : ComponentActivity() {
         val filmId = intent.extras?.getInt("TMDBFilmId")
         if (filmId != null) {
             filmViewModel.getFilm(filmId)
+            filmViewModel.isFilmFavourite(filmId)
         } else {
             finish()
         }
@@ -61,29 +75,82 @@ class FilmCardActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    LazyColumn {
-                        item {
-                            val filmInfo by filmViewModel.filmInfo.observeAsState()
-                            filmInfo?.let {
-                                Log.d(TAG, "onCreate: filmInfo: $filmInfo")
-                                FilmDetails(film = it.film)
-                                Spacer(modifier = Modifier.height(16.dp))
-                                PersonList(persons = it.cast, title = "Cast members")
-                                Spacer(modifier = Modifier.height(12.dp))
-                                PersonList(persons = it.crew, title = "Crew members")
-                                Spacer(modifier = Modifier.height(16.dp))
-                                FilmCarousel(
-                                    films = it.recommendations,
-                                    title = "Recommended films"
-                                )
-                                Spacer(modifier = Modifier.height(8.dp))
-                            }
-                        }
-                    }
+                    DisplayFilmCard(viewModel = filmViewModel, filmId)
                 }
             }
         }
     }
+}
+
+@Composable
+fun DisplayFilmCard(viewModel: FilmViewModel, filmId: Int?) {
+    val filmInfo by viewModel.filmInfo.observeAsState()
+    val filmIsFavourite by viewModel.isFilmFavourite.observeAsState()
+    Scaffold(topBar = {
+        filmIsFavourite?.let {
+            var isFavourite by rememberSaveable { mutableStateOf(it) }
+            if (it) {
+                Log.d(TAG, "onCreate: is fav")
+            } else {
+                Log.d(TAG, "onCreate: is NOT fav")
+            }
+            FilmCardTopBar(
+                viewModel = viewModel,
+                filmId!!,
+                isFavourite,
+                onFavouriteStateChange = { newVal -> isFavourite = newVal })
+        }
+    }) { padValues ->
+        LazyColumn(modifier = Modifier.padding(padValues)) {
+            item {
+                filmInfo?.let {
+                    Log.d(TAG, "onCreate: filmInfo: $filmInfo")
+
+                    FilmDetails(film = it.film)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    PersonList(persons = it.cast, title = "Cast members")
+                    Spacer(modifier = Modifier.height(12.dp))
+                    PersonList(persons = it.crew, title = "Crew members")
+                    Spacer(modifier = Modifier.height(16.dp))
+                    FilmCarousel(
+                        films = it.recommendations, title = "Recommended films"
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
+            }
+        }
+
+    }
+
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FilmCardTopBar(
+    viewModel: FilmViewModel,
+    filmId: Int,
+    favouriteState: Boolean,
+    onFavouriteStateChange: (Boolean) -> Unit
+) {
+    TopAppBar(title = { Text(text = "Film Details") }, actions = {
+        IconButton(onClick = {
+            val newFavState = !favouriteState
+            onFavouriteStateChange(newFavState)
+            viewModel.insert(FavouriteFilm(filmId, newFavState))
+        }) {
+            if (favouriteState) {
+                Icon(
+                    imageVector = Icons.Filled.Star,
+                    contentDescription = "This film is a favourite"
+                )
+            } else {
+                Icon(
+                    imageVector = Icons.TwoTone.Star,
+                    contentDescription = "This film is not a favourite"
+                )
+            }
+        }
+    })
 }
 
 @Composable
