@@ -47,6 +47,7 @@ import com.bumptech.glide.integration.compose.GlideImage
 import fr.epf.matmob.filmroll.model.FavouriteFilm
 import fr.epf.matmob.filmroll.model.Film
 import fr.epf.matmob.filmroll.model.Genre
+import fr.epf.matmob.filmroll.model.LiteFilm
 import fr.epf.matmob.filmroll.model.Person
 import fr.epf.matmob.filmroll.state.FilmApplication
 import fr.epf.matmob.filmroll.state.FilmViewModel
@@ -91,12 +92,14 @@ fun DisplayFilmCard(viewModel: FilmViewModel, filmId: Int?) {
     val filmIsFavourite by viewModel.isFilmFavourite.observeAsState()
     Scaffold(topBar = {
         filmIsFavourite?.let {
-            var isFavourite by rememberSaveable { mutableStateOf(it) }
-            FilmCardTopBar(
-                viewModel = viewModel,
-                filmId!!,
-                isFavourite,
-                onFavouriteStateChange = { newVal -> isFavourite = newVal })
+            filmInfo?.film?.toLiteFilm()?.let { it1 ->
+                FilmCardTopBar(
+                    viewModel = viewModel,
+                    filmId!!,
+                    it,
+                    it1
+                )
+            }
         }
     }) { padValues ->
         LazyColumn(modifier = Modifier.padding(padValues)) {
@@ -128,8 +131,9 @@ fun FilmCardTopBar(
     viewModel: FilmViewModel,
     filmId: Int,
     favouriteState: Boolean,
-    onFavouriteStateChange: (Boolean) -> Unit
+    film: LiteFilm
 ) {
+    var isFavourite by rememberSaveable { mutableStateOf(favouriteState) }
     TopAppBar(title = {
         Text(
             text = "Film Details",
@@ -137,12 +141,11 @@ fun FilmCardTopBar(
         )
     }, actions = {
         IconButton(onClick = {
-            val newFavState = !favouriteState
-            onFavouriteStateChange(newFavState)
-            viewModel.insertFavourite(FavouriteFilm(filmId, newFavState))
-
+            isFavourite = !isFavourite
+            viewModel.insertFavourite(FavouriteFilm(filmId, isFavourite))
+            viewModel.insertLiteFilm(film)
         }) {
-            if (favouriteState) {
+            if (isFavourite) {
                 Icon(
                     imageVector = Icons.Filled.Star,
                     contentDescription = "This film is a favourite"

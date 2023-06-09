@@ -31,8 +31,8 @@ data class Film(
     val status: String,
     val adult: Boolean
 ) {
-    fun toLiteFilm() {
-        LiteFilm(
+    fun toLiteFilm(): LiteFilm {
+        return LiteFilm(
             tmdbId,
             title,
             synopsis,
