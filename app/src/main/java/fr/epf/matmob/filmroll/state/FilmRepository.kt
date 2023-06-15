@@ -18,14 +18,15 @@ class FilmRepository(private val APIService: TmdbService, private val dao: FilmD
     val favouriteLiteFilms: Flow<List<LiteFilm>> = dao.getFavouriteLiteFilms()
 
     suspend fun getFilm(id: Int): ExtendedFilmInfo =
-        APIService.getFilm(id, "fr-FR").toExtendedFilmInfo()
+        APIService.getFilm(id, AppConfiguration.appLanguage).toExtendedFilmInfo()
 
-    suspend fun searchFilm(query: String): List<LiteFilm> =
-        APIService.searchFilm(query, "fr-FR", "FR").results.stream().map { it.toLiteFilm() }
-            .toList()
+    suspend fun searchFilm(query: String): List<LiteFilm> = APIService.searchFilm(
+        query, AppConfiguration.appLanguage, AppConfiguration.appRegion
+    ).results.stream().map { it.toLiteFilm() }.toList()
 
-    suspend fun getPopularFilms(): List<LiteFilm> =
-        APIService.getPopularFilms("fr-FR", "FR").results.stream().map { it.toLiteFilm() }.toList()
+    suspend fun getPopularFilms(): List<LiteFilm> = APIService.getPopularFilms(
+        AppConfiguration.appLanguage, AppConfiguration.appRegion
+    ).results.stream().map { it.toLiteFilm() }.toList()
 
     suspend fun insertFavourite(film: FavouriteFilm) = dao.insertFavourite(film)
 
