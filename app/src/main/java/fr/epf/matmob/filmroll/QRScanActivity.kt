@@ -16,6 +16,7 @@ import androidx.camera.view.PreviewView
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -27,6 +28,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -91,8 +94,7 @@ fun QRScanningScreen(onScan: (Int) -> Unit) {
 @Composable
 fun AskPermissions(permState: PermissionState) {
     Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val textToShow = if (permState.status.shouldShowRationale) {
             // If the user has denied the permission but the rationale can be shown,
@@ -104,8 +106,11 @@ fun AskPermissions(permState: PermissionState) {
             // permission is required
             stringResource(R.string.ask_camera_permission_long)
         }
-        Text(textToShow)
-        Button(onClick = { permState.launchPermissionRequest() }) {
+        Text(textToShow, textAlign = TextAlign.Center)
+        Button(
+            onClick = { permState.launchPermissionRequest() },
+            modifier = Modifier.padding(top = 8.dp)
+        ) {
             Text(stringResource(R.string.enable_camera_button_text))
         }
     }
