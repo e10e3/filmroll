@@ -19,8 +19,8 @@
     <string name="vote_score_label">Score : %1$d %%</string>
     <string name="duration_label">Durée : %1$s</string>
     <string name="unknown_date_replacement">Inconnue</string>
-    <string name="ask_camera_permission_short">L\'usage de la caméra est important pour cette application. Autorisez à utiliser la caméra pour continuer.</string>
-    <string name="ask_camera_permission_long">La permission d\'utilisre la caméra est n\"cessaire pour faire fonctionner cette fonctionnalité. Veuillez accorder la permission. Vous pouvez avoir besoin d\'aller dans le paramètres pour le faire.</string>
+    <string name="ask_camera_permission_short">L\'usage de la caméra est important pour cette application. Autorisez l\'usage de la caméra pour continuer.</string>
+    <string name="ask_camera_permission_long">La permission d\'utiliser la caméra est nécessaire pour faire fonctionner cette fonctionnalité. Vous pouvez avoir besoin d\'aller dans les paramètres pour accorder la permission.</string>
     <string name="enable_camera_button_text">Activer la caméra</string>
     <string name="recommended_films_title">Films recommendés</string>
 </resources>
