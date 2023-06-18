@@ -14,8 +14,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import fr.epf.matmob.filmroll.R
 
 @Composable
 fun StatusScreen(text: String, icon: @Composable () -> Unit, modifier: Modifier = Modifier) {
@@ -32,7 +34,7 @@ fun StatusScreen(text: String, icon: @Composable () -> Unit, modifier: Modifier 
 @Composable
 fun LoadingScreen(modifier: Modifier = Modifier) {
     StatusScreen(
-        text = "Loading…", icon = {
+        text = stringResource(R.string.loading_screen_message), icon = {
             CircularProgressIndicator(
                 modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
             )
@@ -43,10 +45,10 @@ fun LoadingScreen(modifier: Modifier = Modifier) {
 @Composable
 fun NotFoundScreen(modifier: Modifier = Modifier) {
     StatusScreen(
-        text = "No film found", icon = {
+        text = stringResource(R.string.not_found_screen_message), icon = {
             Icon(
                 Icons.Default.TravelExplore,
-                contentDescription = "Globe icon with a looking glass.",
+                contentDescription = stringResource(R.string.travel_explore_icon_description),
                 modifier = Modifier
                     .padding(top = 16.dp, bottom = 8.dp)
                     .size(48.dp)
@@ -58,10 +60,10 @@ fun NotFoundScreen(modifier: Modifier = Modifier) {
 @Composable
 fun ErrorScreen(modifier: Modifier = Modifier) {
     StatusScreen(
-        text = "Error!", icon = {
+        text = stringResource(R.string.error_screen_message), icon = {
             Icon(
                 imageVector = Icons.Default.SentimentVeryDissatisfied,
-                contentDescription = "A frowning face",
+                contentDescription = stringResource(R.string.very_dissastisfied_icon_description),
                 modifier = Modifier
                     .padding(top = 16.dp, bottom = 8.dp)
                     .size(48.dp)

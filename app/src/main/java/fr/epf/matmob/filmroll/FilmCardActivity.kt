@@ -232,9 +232,9 @@ fun FilmDetails(
                 "https://placehold.co/1280x720.png"
             } else {
                 "https://image.tmdb.org/t/p/w1280${film.backdropPath}"
-            },
-            contentDescription = "${film.title}'s backdrop image",
-            modifier = Modifier.fillMaxWidth()
+            }, contentDescription = stringResource(
+                id = R.string.film_backdrop_description, film.title
+            ), modifier = Modifier.fillMaxWidth()
         )
         Surface(
             shape = MaterialTheme.shapes.medium,
@@ -293,9 +293,9 @@ fun PersonProfile(person: Person) {
                     "https://placehold.co/185x278.png"
                 } else {
                     "https://image.tmdb.org/t/p/w185${person.picturePath}"
-                },
-                contentDescription = "${person.name}'s profile picture",
-                modifier = Modifier.width(27.dp)
+                }, contentDescription = stringResource(
+                    id = R.string.person_profile_picture_description, person.name
+                ), modifier = Modifier.width(27.dp)
             )
             Spacer(modifier = Modifier.width(8.dp))
             Column {

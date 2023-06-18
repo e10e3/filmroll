@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import fr.epf.matmob.filmroll.state.FilmViewModel
 import fr.epf.matmob.filmroll.ui.components.StatusScreen
@@ -27,10 +28,10 @@ fun FavouritesList(viewModel: FilmViewModel, modifier: Modifier = Modifier) {
 @Composable
 fun NoFavourites(modifier: Modifier = Modifier) {
     StatusScreen(
-        text = "No favourites yet!", icon = {
+        text = stringResource(R.string.no_favourites_message), icon = {
             Icon(
                 Icons.Default.HeartBroken,
-                contentDescription = "A heart broken in halves",
+                contentDescription = stringResource(R.string.broken_heart_description),
                 modifier = Modifier
                     .padding(top = 16.dp, bottom = 8.dp)
                     .size(48.dp)

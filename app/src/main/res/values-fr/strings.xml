@@ -23,4 +23,13 @@
     <string name="ask_camera_permission_long">La permission d\'utiliser la caméra est nécessaire pour faire fonctionner cette fonctionnalité. Vous pouvez avoir besoin d\'aller dans les paramètres pour accorder la permission.</string>
     <string name="enable_camera_button_text">Activer la caméra</string>
     <string name="recommended_films_title">Films recommendés</string>
+    <string name="film_backdrop_description">Image de fond du film %1$s</string>
+    <string name="person_profile_picture_description">Photo de profil pour %1$s</string>
+    <string name="loading_screen_message">Chargement…</string>
+    <string name="not_found_screen_message">Pas de film trouvé</string>
+    <string name="error_screen_message">Erreur !</string>
+    <string name="travel_explore_icon_description">Icône de globe avec une loupe.</string>
+    <string name="very_dissastisfied_icon_description">Un visage faisant la moue</string>
+    <string name="no_favourites_message">Pas encore de favoris</string>
+    <string name="broken_heart_description">Un cœur brisé en deux</string>
 </resources>

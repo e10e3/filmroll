@@ -20,9 +20,18 @@
     <string name="release_date_label">Released: %1$s</string>
     <string name="vote_score_label">Score: %1$d%%</string>
     <string name="duration_label">Duration: %1$s</string>
+    <string name="film_backdrop_description">%1$s\'s backdrop image</string>
+    <string name="person_profile_picture_description">%1$s\'s profile picture</string>
     <string name="unknown_date_replacement">Unknown</string>
     <string name="ask_camera_permission_short">The camera is important for this app. Please grant the permission.</string>
     <string name="ask_camera_permission_long">Camera permission required for this feature to be available. Please grant the permission. You may need to go to the system settings to enable the permission.</string>
     <string name="enable_camera_button_text">Enable the camera</string>
     <string name="recommended_films_title">Recommended films</string>
+    <string name="loading_screen_message">Loading…</string>
+    <string name="not_found_screen_message">No film found</string>
+    <string name="error_screen_message">Error!</string>
+    <string name="travel_explore_icon_description">Globe icon with a looking glass.</string>
+    <string name="very_dissastisfied_icon_description">A frowning face</string>
+    <string name="no_favourites_message">No favourites yet!</string>
+    <string name="broken_heart_description">A heart broken in halves</string>
 </resources>
