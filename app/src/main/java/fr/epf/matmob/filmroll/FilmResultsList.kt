@@ -17,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import fr.epf.matmob.filmroll.state.FilmApplication
 import fr.epf.matmob.filmroll.state.FilmViewModel
 import fr.epf.matmob.filmroll.state.FilmViewModelFactory
@@ -66,7 +67,9 @@ fun ResultsTopBar(query: String) {
     TopAppBar(title = {
         Text(
             text = stringResource(id = R.string.search_query_label, query),
-            style = MaterialTheme.typography.headlineSmall
+            style = MaterialTheme.typography.headlineSmall,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1
         )
     })
 }
