@@ -2,14 +2,11 @@ package fr.epf.matmob.filmroll
 
 import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.util.Size
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST
@@ -24,11 +21,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -125,45 +118,29 @@ fun CameraView(onScan: (Int) -> Unit) {
     val cameraProviderFuture = remember {
         ProcessCameraProvider.getInstance(localContext)
     }
-    var hasCamPermission by remember {
-        mutableStateOf(
-            ContextCompat.checkSelfPermission(
-                localContext, Manifest.permission.CAMERA
-            ) == PackageManager.PERMISSION_GRANTED
-        )
-    }
-    val launcher =
-        rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission(),
-            onResult = { granted ->
-                hasCamPermission = granted
+
+    AndroidView(factory = { context ->
+        val previewView = PreviewView(context)
+        val preview = Preview.Builder().build()
+        val selector =
+            CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build()
+        preview.setSurfaceProvider(previewView.surfaceProvider)
+        val imageAnalysis = ImageAnalysis.Builder().setTargetResolution(
+            Size(
+                previewView.width, previewView.height
+            )
+        ).setBackpressureStrategy(STRATEGY_KEEP_ONLY_LATEST).build()
+        imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(context),
+            QRCodeImageAnalyser { resultValue: Int ->
+                onScan(resultValue)
             })
-    LaunchedEffect(key1 = true) {
-        launcher.launch(Manifest.permission.CAMERA)
-    }
-    if (hasCamPermission) {
-        AndroidView(factory = { context ->
-            val previewView = PreviewView(context)
-            val preview = Preview.Builder().build()
-            val selector =
-                CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build()
-            preview.setSurfaceProvider(previewView.surfaceProvider)
-            val imageAnalysis = ImageAnalysis.Builder().setTargetResolution(
-                Size(
-                    previewView.width, previewView.height
-                )
-            ).setBackpressureStrategy(STRATEGY_KEEP_ONLY_LATEST).build()
-            imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(context),
-                QRCodeImageAnalyser { resultValue: Int ->
-                    onScan(resultValue)
-                })
-            try {
-                cameraProviderFuture.get().bindToLifecycle(
-                    lifecycleOwner, selector, preview, imageAnalysis
-                )
-            } catch (e: Exception) {
-                Log.i(TAG, "CameraView: ${e.message}", e)
-            }
-            previewView
-        }, modifier = Modifier.fillMaxSize())
-    }
+        try {
+            cameraProviderFuture.get().bindToLifecycle(
+                lifecycleOwner, selector, preview, imageAnalysis
+            )
+        } catch (e: Exception) {
+            Log.i(TAG, "CameraView: ${e.message}", e)
+        }
+        previewView
+    }, modifier = Modifier.fillMaxSize())
 }
