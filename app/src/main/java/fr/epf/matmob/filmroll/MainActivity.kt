@@ -59,6 +59,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.getPopularFilms()
         setContent {
             FilmrollTheme {
                 // A surface container using the 'background' color from the theme
@@ -90,13 +91,11 @@ fun HomeStructure(viewModel: FilmViewModel, context: Context) {
             du changement d'affichage et ne se ré-affiche pas lors du retour au scan. */
             2 -> context.startActivity(Intent(context, QRScanActivity::class.java))
         }
-
     }
 }
 
 @Composable
 fun DisplayHomeScreen(viewModel: FilmViewModel, context: Context, modifier: Modifier = Modifier) {
-    viewModel.getPopularFilms()
     LazyColumn(modifier = modifier) {
         item {
             SearchBar(context)
