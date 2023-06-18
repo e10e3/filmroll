@@ -84,6 +84,7 @@ fun HomeStructure(viewModel: FilmViewModel, context: Context) {
             )
 
             1 -> FavouritesList(viewModel = viewModel, Modifier.padding(padValues))
+
             /* Le scan de QR code reste une activité car la vie de la vue est liée à l'activité,
             pas au composable. Si seul le composable est utilisé, la caméra ne se ferme pas lors
             du changement d'affichage et ne se ré-affiche pas lors du retour au scan. */
@@ -98,45 +99,48 @@ fun DisplayHomeScreen(viewModel: FilmViewModel, context: Context, modifier: Modi
     viewModel.getPopularFilms()
     LazyColumn(modifier = modifier) {
         item {
-            val (value, onValueChange) = remember { mutableStateOf("") }
-            TextField(
-                value = value,
-                onValueChange = onValueChange,
-                singleLine = true,
-                shape = MaterialTheme.shapes.extraLarge,
-                placeholder = { Text(text = stringResource(R.string.searchbar_placeholder)) },
-                trailingIcon = {
-                    Icon(imageVector = Icons.Filled.Clear,
-                        contentDescription = null,
-                        modifier = Modifier.clickable { onValueChange("") })
-                },
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Filled.Search, contentDescription = null
-                    )
-                },
-                keyboardActions = KeyboardActions(onSearch = {
-                    val intent = Intent(context, FilmResultsList::class.java)
-                    intent.putExtra("searchQuery", value)
-                    context.startActivity(intent)
-                }),
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp, top = 64.dp, bottom = 90.dp)
-                    .shadow(elevation = 8.dp, shape = MaterialTheme.shapes.extraLarge),
-                colors = TextFieldDefaults.colors(
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent
-                )
-            )
-
+            SearchBar(context)
             val popularFilms by viewModel.popularFilms.observeAsState()
             popularFilms?.let {
                 FilmCarousel(films = it, title = stringResource(R.string.popular_films_title))
             }
         }
     }
+}
+
+@Composable
+fun SearchBar(context: Context) {
+    val (value, onValueChange) = remember { mutableStateOf("") }
+    TextField(
+        value = value,
+        onValueChange = onValueChange,
+        singleLine = true,
+        shape = MaterialTheme.shapes.extraLarge,
+        placeholder = { Text(text = stringResource(R.string.searchbar_placeholder)) },
+        trailingIcon = {
+            Icon(imageVector = Icons.Filled.Clear,
+                contentDescription = null,
+                modifier = Modifier.clickable { onValueChange("") })
+        },
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Filled.Search, contentDescription = null
+            )
+        },
+        keyboardActions = KeyboardActions(onSearch = {
+            val intent = Intent(context, FilmResultsList::class.java)
+            intent.putExtra("searchQuery", value)
+            context.startActivity(intent)
+        }),
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 16.dp, end = 16.dp, top = 64.dp, bottom = 90.dp)
+            .shadow(elevation = 8.dp, shape = MaterialTheme.shapes.extraLarge),
+        colors = TextFieldDefaults.colors(
+            focusedIndicatorColor = Color.Transparent, unfocusedIndicatorColor = Color.Transparent
+        )
+    )
 }
 
 @Composable
