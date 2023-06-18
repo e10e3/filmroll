@@ -91,14 +91,12 @@ class FilmCardActivity : ComponentActivity() {
 @Composable
 fun DisplayFilmCard(viewModel: FilmViewModel, filmId: Int) {
     val filmInfo by viewModel.filmInfo.observeAsState()
-    val filmIsFavourite by viewModel.isFilmFavourite.observeAsState()
+    val filmIsFavourite by viewModel.isFilmFavourite.observeAsState(initial = false)
     Scaffold(topBar = {
-        filmIsFavourite?.let {
-            filmInfo?.film?.toLiteFilm()?.let { it1 ->
-                FilmCardTopBar(
-                    viewModel = viewModel, filmId, it, it1
-                )
-            }
+        filmInfo?.film?.toLiteFilm()?.let { it1 ->
+            FilmCardTopBar(
+                viewModel = viewModel, filmId, filmIsFavourite, it1
+            )
         }
     }) { padValues ->
         LazyColumn(modifier = Modifier.padding(padValues)) {

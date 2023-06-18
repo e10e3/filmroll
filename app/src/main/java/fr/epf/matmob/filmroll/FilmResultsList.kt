@@ -55,9 +55,9 @@ class FilmResultsList : ComponentActivity() {
 
 @Composable
 fun SearchScreenStructure(viewModel: FilmViewModel, query: String) {
-    val foundFilms by viewModel.foundFilms.observeAsState()
+    val foundFilms by viewModel.foundFilms.observeAsState(initial = emptyList())
     Scaffold(topBar = { ResultsTopBar(query = query) }) { padVal ->
-        foundFilms?.let { VerticalFilmList(filmList = it, modifier = Modifier.padding(padVal)) }
+        VerticalFilmList(filmList = foundFilms, modifier = Modifier.padding(padVal))
     }
 }
 

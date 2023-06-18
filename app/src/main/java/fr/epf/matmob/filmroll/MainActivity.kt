@@ -96,13 +96,11 @@ fun HomeStructure(viewModel: FilmViewModel, context: Context) {
 
 @Composable
 fun DisplayHomeScreen(viewModel: FilmViewModel, context: Context, modifier: Modifier = Modifier) {
+    val popularFilms by viewModel.popularFilms.observeAsState(initial = emptyList())
     LazyColumn(modifier = modifier) {
         item {
             SearchBar(context)
-            val popularFilms by viewModel.popularFilms.observeAsState()
-            popularFilms?.let {
-                FilmCarousel(films = it, title = stringResource(R.string.popular_films_title))
-            }
+            FilmCarousel(films = popularFilms, title = stringResource(R.string.popular_films_title))
         }
     }
 }

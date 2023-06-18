@@ -9,6 +9,6 @@ import fr.epf.matmob.filmroll.ui.components.VerticalFilmList
 
 @Composable
 fun FavouritesList(viewModel: FilmViewModel, modifier: Modifier = Modifier) {
-    val favouriteFilms by viewModel.favouriteLiteFilms.observeAsState()
-    favouriteFilms?.let { VerticalFilmList(filmList = it, modifier = modifier) }
+    val favouriteFilms by viewModel.favouriteLiteFilms.observeAsState(initial = emptyList())
+     VerticalFilmList(filmList = favouriteFilms, modifier = modifier)
 }
