@@ -127,9 +127,11 @@ fun SearchBar(context: Context) {
             )
         },
         keyboardActions = KeyboardActions(onSearch = {
-            val intent = Intent(context, FilmResultsList::class.java)
-            intent.putExtra("searchQuery", value)
-            context.startActivity(intent)
+            if (value.isNotBlank()) {
+                val intent = Intent(context, FilmResultsList::class.java)
+                intent.putExtra("searchQuery", value.trim())
+                context.startActivity(intent)
+            }
         }),
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
         modifier = Modifier
