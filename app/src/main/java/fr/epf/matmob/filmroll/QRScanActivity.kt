@@ -1,7 +1,6 @@
 package fr.epf.matmob.filmroll
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -47,6 +46,7 @@ import fr.epf.matmob.filmroll.ui.theme.FilmrollTheme
 private const val TAG = "QRScanActivity"
 
 class QRScanActivity : ComponentActivity() {
+    private var continueScanning = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -55,22 +55,40 @@ class QRScanActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    QRScanningScreen(context = this)
+                    QRScanningScreen(onScan = { result: Int -> onFilmScanned(result) })
                 }
             }
         }
     }
+
+    private fun onFilmScanned(id: Int) {
+        if (this.continueScanning) {
+            this.continueScanning = false
+            Log.d(TAG, "onFilmScanned: showing the card for film #$id")
+            this.startActivity(
+                Intent(
+                    this, FilmCardActivity::class.java
+                ).putExtra("TMDBFilmId", id)
+            )
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        continueScanning = true
+    }
+
 }
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun QRScanningScreen(context: Context) {
+fun QRScanningScreen(onScan: (Int) -> Unit) {
     val cameraPermissionState = rememberPermissionState(
         permission = Manifest.permission.CAMERA
     )
 
     if (cameraPermissionState.status.isGranted) {
-        CameraView(activityContext = context)
+        CameraView(onScan = onScan)
     } else {
         AskPermissions(permState = cameraPermissionState)
     }
@@ -101,7 +119,7 @@ fun AskPermissions(permState: PermissionState) {
 }
 
 @Composable
-fun CameraView(activityContext: Context) {
+fun CameraView(onScan: (Int) -> Unit) {
     val localContext = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val cameraProviderFuture = remember {
@@ -127,8 +145,7 @@ fun CameraView(activityContext: Context) {
             val previewView = PreviewView(context)
             val preview = Preview.Builder().build()
             val selector =
-                CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK)
-                    .build()
+                CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build()
             preview.setSurfaceProvider(previewView.surfaceProvider)
             val imageAnalysis = ImageAnalysis.Builder().setTargetResolution(
                 Size(
@@ -137,12 +154,7 @@ fun CameraView(activityContext: Context) {
             ).setBackpressureStrategy(STRATEGY_KEEP_ONLY_LATEST).build()
             imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(context),
                 QRCodeImageAnalyser { resultValue: Int ->
-                    Log.d(TAG, "CameraView: showing the card for film #$resultValue")
-                    activityContext.startActivity(
-                        Intent(
-                            activityContext, FilmCardActivity::class.java
-                        ).putExtra("TMDBFilmId", resultValue)
-                    )
+                    onScan(resultValue)
                 })
             try {
                 cameraProviderFuture.get().bindToLifecycle(
