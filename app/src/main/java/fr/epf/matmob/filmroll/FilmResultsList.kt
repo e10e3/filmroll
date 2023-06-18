@@ -21,6 +21,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import fr.epf.matmob.filmroll.state.FilmApplication
 import fr.epf.matmob.filmroll.state.FilmViewModel
 import fr.epf.matmob.filmroll.state.FilmViewModelFactory
+import fr.epf.matmob.filmroll.state.RequestState
+import fr.epf.matmob.filmroll.ui.components.ErrorScreen
+import fr.epf.matmob.filmroll.ui.components.LoadingScreen
+import fr.epf.matmob.filmroll.ui.components.NotFoundScreen
 import fr.epf.matmob.filmroll.ui.components.VerticalFilmList
 import fr.epf.matmob.filmroll.ui.theme.FilmrollTheme
 
@@ -56,8 +60,19 @@ class FilmResultsList : ComponentActivity() {
 @Composable
 fun SearchScreenStructure(viewModel: FilmViewModel, query: String) {
     val foundFilms by viewModel.foundFilms.observeAsState(initial = emptyList())
+    val foundFilmsStatus by viewModel.foundFilmsStatus.observeAsState(initial = RequestState.LOADING)
     Scaffold(topBar = { ResultsTopBar(query = query) }) { padVal ->
-        VerticalFilmList(filmList = foundFilms, modifier = Modifier.padding(padVal))
+        when (foundFilmsStatus) {
+            RequestState.LOADING -> LoadingScreen(modifier = Modifier.padding(paddingValues = padVal))
+            RequestState.SUCCESS -> VerticalFilmList(
+                filmList = foundFilms, modifier = Modifier.padding(
+                    paddingValues = padVal
+                )
+            )
+
+            RequestState.NOT_FOUND -> NotFoundScreen(modifier = Modifier.padding(paddingValues = padVal))
+            RequestState.ERROR -> ErrorScreen(modifier = Modifier.padding(paddingValues = padVal))
+        }
     }
 }
 

@@ -55,7 +55,11 @@ import fr.epf.matmob.filmroll.model.Person
 import fr.epf.matmob.filmroll.state.FilmApplication
 import fr.epf.matmob.filmroll.state.FilmViewModel
 import fr.epf.matmob.filmroll.state.FilmViewModelFactory
+import fr.epf.matmob.filmroll.state.RequestState
+import fr.epf.matmob.filmroll.ui.components.ErrorScreen
 import fr.epf.matmob.filmroll.ui.components.FilmCarousel
+import fr.epf.matmob.filmroll.ui.components.LoadingScreen
+import fr.epf.matmob.filmroll.ui.components.NotFoundScreen
 import fr.epf.matmob.filmroll.ui.theme.FilmrollTheme
 import kotlin.math.roundToInt
 
@@ -81,9 +85,24 @@ class FilmCardActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    filmId?.let { DisplayFilmCard(viewModel = filmViewModel, it) }
+                    FilmCardValueGuard(viewModel = filmViewModel, filmId = filmId)
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun FilmCardValueGuard(viewModel: FilmViewModel, filmId: Int?) {
+    val filmInfoStatus by viewModel.filmInfoStatus.observeAsState(initial = RequestState.LOADING)
+    if (filmId == null) {
+        ErrorScreen()
+    } else {
+        when (filmInfoStatus) {
+            RequestState.LOADING -> LoadingScreen()
+            RequestState.SUCCESS -> DisplayFilmCard(viewModel = viewModel, filmId = filmId)
+            RequestState.NOT_FOUND -> NotFoundScreen()
+            RequestState.ERROR -> ErrorScreen()
         }
     }
 }
@@ -195,10 +214,9 @@ fun Hyperlink(link: String, modifier: Modifier = Modifier) {
         }
         val uriHandler = LocalUriHandler.current
         ClickableText(modifier = modifier, text = annotatedString, onClick = {
-            annotatedString.getStringAnnotations("URL", it, it).first()
-                .let { stringAnnotation ->
-                    uriHandler.openUri(stringAnnotation.item)
-                }
+            annotatedString.getStringAnnotations("URL", it, it).first().let { stringAnnotation ->
+                uriHandler.openUri(stringAnnotation.item)
+            }
         })
     }
 }

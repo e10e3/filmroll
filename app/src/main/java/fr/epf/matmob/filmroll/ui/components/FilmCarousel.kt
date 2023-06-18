@@ -27,15 +27,19 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import fr.epf.matmob.filmroll.FilmCardActivity
 import fr.epf.matmob.filmroll.model.LiteFilm
+import fr.epf.matmob.filmroll.state.RequestState
 
 @Composable
-fun FilmCarousel(films: List<LiteFilm>, title: String) {
-    val activity = LocalContext.current as Activity
-    val columnWidth = 111.dp
+fun FilmCarousel(
+    films: List<LiteFilm>,
+    title: String,
+    requestState: RequestState = RequestState.SUCCESS
+) {
     Surface(
         color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp),
         modifier = Modifier.padding(horizontal = 8.dp),
-        shape = MaterialTheme.shapes.medium
+        shape = MaterialTheme.shapes.medium,
+        shadowElevation = 2.dp
     ) {
         Column {
             Text(
@@ -43,22 +47,35 @@ fun FilmCarousel(films: List<LiteFilm>, title: String) {
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(bottom = 8.dp, top = 12.dp, start = 12.dp)
             )
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(6.dp),
-                modifier = Modifier.padding(start = 12.dp, end = 4.dp)
-            ) {
-                items(films) {
-                    PosterItem(film = it, onClick = {
-                        activity.startActivity(
-                            Intent(
-                                activity, FilmCardActivity::class.java
-                            ).putExtra("TMDBFilmId", it.tmdbId)
-                        )
-                    }, modifier = Modifier.width(columnWidth))
-                }
+            when (requestState) {
+                RequestState.LOADING -> LoadingScreen()
+                RequestState.SUCCESS -> if (films.isEmpty()) NotFoundScreen() else PosterList(films = films)
+                RequestState.NOT_FOUND -> NotFoundScreen()
+                RequestState.ERROR -> ErrorScreen()
             }
         }
     }
+}
+
+@Composable
+fun PosterList(films: List<LiteFilm>) {
+    val activity = LocalContext.current as Activity
+    val columnWidth = 111.dp
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
+        modifier = Modifier.padding(start = 12.dp, end = 4.dp)
+    ) {
+        items(films) {
+            PosterItem(film = it, onClick = {
+                activity.startActivity(
+                    Intent(
+                        activity, FilmCardActivity::class.java
+                    ).putExtra("TMDBFilmId", it.tmdbId)
+                )
+            }, modifier = Modifier.width(columnWidth))
+        }
+    }
+
 }
 
 @OptIn(ExperimentalGlideComposeApi::class)
@@ -104,7 +121,7 @@ fun SurfacePreview() {
         color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp),
         modifier = Modifier.padding(horizontal = 4.dp),
         shape = MaterialTheme.shapes.medium,
-        // shadowElevation = 1.dp,
+        shadowElevation = 2.dp,
     ) {
         Text(text = "Surface colour test", modifier = Modifier.padding(12.dp))
     }

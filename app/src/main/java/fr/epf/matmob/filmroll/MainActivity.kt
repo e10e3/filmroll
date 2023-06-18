@@ -47,6 +47,7 @@ import androidx.compose.ui.unit.dp
 import fr.epf.matmob.filmroll.state.FilmApplication
 import fr.epf.matmob.filmroll.state.FilmViewModel
 import fr.epf.matmob.filmroll.state.FilmViewModelFactory
+import fr.epf.matmob.filmroll.state.RequestState
 import fr.epf.matmob.filmroll.ui.components.FilmCarousel
 import fr.epf.matmob.filmroll.ui.theme.FilmrollTheme
 
@@ -97,10 +98,15 @@ fun HomeStructure(viewModel: FilmViewModel, context: Context) {
 @Composable
 fun DisplayHomeScreen(viewModel: FilmViewModel, context: Context, modifier: Modifier = Modifier) {
     val popularFilms by viewModel.popularFilms.observeAsState(initial = emptyList())
+    val popularFilmsStatus by viewModel.popularFilmsStatus.observeAsState(initial = RequestState.LOADING)
     LazyColumn(modifier = modifier) {
         item {
             SearchBar(context)
-            FilmCarousel(films = popularFilms, title = stringResource(R.string.popular_films_title))
+            FilmCarousel(
+                films = popularFilms,
+                title = stringResource(R.string.popular_films_title),
+                popularFilmsStatus
+            )
         }
     }
 }

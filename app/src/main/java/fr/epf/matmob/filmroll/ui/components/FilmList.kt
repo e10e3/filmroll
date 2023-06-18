@@ -87,9 +87,13 @@ fun FilmListItem(film: LiteFilm) {
 
 @Composable
 fun VerticalFilmList(filmList: List<LiteFilm>, modifier: Modifier = Modifier) {
-    LazyColumn(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        items(filmList) {
-            FilmListItem(film = it)
+    if (filmList.isEmpty()) {
+        NotFoundScreen()
+    } else {
+        LazyColumn(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            items(filmList) {
+                FilmListItem(film = it)
+            }
         }
     }
 }
