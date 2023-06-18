@@ -146,26 +146,39 @@ fun SearchBar(context: Context) {
 @Composable
 fun AppNavigationBar(selectedIndex: Int, onSelectItem: (Int) -> Unit) {
     NavigationBar {
-        NavigationBarItem(icon = { Icon(Icons.Default.Home, contentDescription = stringResource(R.string.home_icon_description)) },
-            label = { Text(text = stringResource(R.string.home_icon_label), style = MaterialTheme.typography.labelSmall) },
-            selected = selectedIndex == 0,
-            onClick = { onSelectItem(0) })
         NavigationBarItem(icon = {
             Icon(
-                Icons.Default.Favorite, contentDescription = stringResource(R.string.favourite_icon_description)
+                Icons.Default.Home,
+                contentDescription = stringResource(R.string.home_icon_description)
             )
-        },
-            label = { Text(text = stringResource(R.string.favourites_icon_label), style = MaterialTheme.typography.labelSmall) },
-            selected = selectedIndex == 1,
-            onClick = { onSelectItem(1) })
+        }, label = {
+            Text(
+                text = stringResource(R.string.home_icon_label),
+                style = MaterialTheme.typography.labelSmall
+            )
+        }, selected = selectedIndex == 0, onClick = { onSelectItem(0) })
         NavigationBarItem(icon = {
             Icon(
-                Icons.Default.QrCodeScanner, contentDescription = stringResource(R.string.qr_code_icon_description)
+                Icons.Default.Favorite,
+                contentDescription = stringResource(R.string.favourite_icon_description)
             )
-        },
-            label = { Text(text = stringResource(R.string.qr_scan_icon_label), style = MaterialTheme.typography.labelSmall) },
-            selected = selectedIndex == 2,
-            onClick = { onSelectItem(2) })
+        }, label = {
+            Text(
+                text = stringResource(R.string.favourites_icon_label),
+                style = MaterialTheme.typography.labelSmall
+            )
+        }, selected = selectedIndex == 1, onClick = { onSelectItem(1) })
+        NavigationBarItem(icon = {
+            Icon(
+                Icons.Default.QrCodeScanner,
+                contentDescription = stringResource(R.string.qr_code_icon_description)
+            )
+        }, label = {
+            Text(
+                text = stringResource(R.string.qr_scan_icon_label),
+                style = MaterialTheme.typography.labelSmall
+            )
+        }, selected = selectedIndex == 2, onClick = { onSelectItem(2) })
     }
 }
 
