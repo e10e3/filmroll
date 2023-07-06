@@ -24,7 +24,9 @@ Features
 - View the favourites offline
 - Material design 3
 - See actor and crew list for a film
-- Translations
+- UI translations (created: fr)
+- Translated film results
+- Handles network errors
 
 Configuring
 ------------
