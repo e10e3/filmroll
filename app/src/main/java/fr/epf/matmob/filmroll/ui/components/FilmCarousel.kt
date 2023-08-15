@@ -33,11 +33,12 @@ import fr.epf.matmob.filmroll.state.RequestState
 fun FilmCarousel(
     films: List<LiteFilm>,
     title: String,
+    modifier: Modifier = Modifier,
     requestState: RequestState = RequestState.SUCCESS
 ) {
     Surface(
         color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp),
-        modifier = Modifier.padding(horizontal = 8.dp),
+        modifier = modifier.padding(horizontal = 8.dp),
         shape = MaterialTheme.shapes.medium,
         shadowElevation = 2.dp
     ) {
@@ -45,7 +46,7 @@ fun FilmCarousel(
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(bottom = 8.dp, top = 12.dp, start = 12.dp)
+                modifier = Modifier.padding(bottom = 8.dp, top = 10.dp, start = 12.dp)
             )
             when (requestState) {
                 RequestState.LOADING -> LoadingScreen()

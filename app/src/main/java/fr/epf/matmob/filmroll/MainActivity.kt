@@ -105,7 +105,8 @@ fun DisplayHomeScreen(viewModel: FilmViewModel, context: Context, modifier: Modi
             FilmCarousel(
                 films = popularFilms,
                 title = stringResource(R.string.popular_films_title),
-                popularFilmsStatus
+                modifier = Modifier.padding(bottom = 2.dp),
+                requestState = popularFilmsStatus,
             )
         }
     }
@@ -140,7 +141,7 @@ fun SearchBar(context: Context) {
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp, top = 64.dp, bottom = 90.dp)
+            .padding(start = 16.dp, end = 16.dp, top = 64.dp, bottom = 80.dp)
             .shadow(elevation = 8.dp, shape = MaterialTheme.shapes.extraLarge),
         colors = TextFieldDefaults.colors(
             focusedIndicatorColor = Color.Transparent, unfocusedIndicatorColor = Color.Transparent

@@ -135,9 +135,9 @@ fun DisplayFilmCard(viewModel: FilmViewModel, filmId: Int) {
                     Spacer(modifier = Modifier.height(16.dp))
                     FilmCarousel(
                         films = it.recommendations,
-                        title = stringResource(R.string.recommended_films_title)
+                        title = stringResource(R.string.recommended_films_title),
+                        modifier = Modifier.padding(bottom = 8.dp)
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
                 }
             }
         }
