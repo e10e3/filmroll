@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Pellicule</string>
     <string name="searchbar_placeholder">Chercher un film</string>
-    <string name="popular_films_title">Film populaires en ce moment</string>
+    <string name="popular_films_title">Films populaires en ce moment</string>
     <string name="home_icon_label">Accueil</string>
     <string name="home_icon_description">Icône de maison</string>
     <string name="favourite_icon_description">Icône de cœur</string>
