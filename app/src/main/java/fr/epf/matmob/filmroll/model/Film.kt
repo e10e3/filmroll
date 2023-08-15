@@ -12,6 +12,7 @@ data class Film(
     val title: String,
     val originalTitle: String,
     val synopsis: String,
+    val headline: String,
     val releaseDate: String,
     val duration: Duration,
     val posterPath: String,

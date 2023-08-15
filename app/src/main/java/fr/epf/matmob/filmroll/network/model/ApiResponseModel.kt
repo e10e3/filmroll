@@ -47,6 +47,7 @@ data class ResponseExtendedFilm(
                 title,
                 original_title,
                 overview,
+                tagline,
                 release_date,
                 runtime.toDuration(DurationUnit.MINUTES),
                 poster_path ?: "",

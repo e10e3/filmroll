@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -35,12 +36,15 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
@@ -226,26 +230,51 @@ fun Hyperlink(link: String, modifier: Modifier = Modifier) {
 fun FilmDetails(
     film: Film
 ) {
-    Column {
-        GlideImage(
-            model = if (film.backdropPath.isEmpty()) {
-                "https://placehold.co/1280x720.png"
-            } else {
-                "https://image.tmdb.org/t/p/w1280${film.backdropPath}"
-            }, contentDescription = stringResource(
-                id = R.string.film_backdrop_description, film.title
-            ), modifier = Modifier.fillMaxWidth()
-        )
-        Surface(
-            shape = MaterialTheme.shapes.medium,
-            color = MaterialTheme.colorScheme.secondaryContainer,
-            modifier = Modifier
-                .padding(horizontal = 4.dp, vertical = 2.dp)
-                .fillMaxWidth(),
-            shadowElevation = 2.dp
-        ) {
+    Surface(
+        shape = MaterialTheme.shapes.medium,
+        color = MaterialTheme.colorScheme.secondaryContainer,
+        modifier = Modifier
+            .padding(horizontal = 4.dp, vertical = 2.dp)
+            .fillMaxWidth(),
+        shadowElevation = 2.dp
+    ) {
+        Column {
+            Box {
+                GlideImage(
+                    model = if (film.backdropPath.isEmpty()) {
+                        "https://placehold.co/1280x720.png"
+                    } else {
+                        "https://image.tmdb.org/t/p/w1280${film.backdropPath}"
+                    },
+                    contentDescription = stringResource(
+                        id = R.string.film_backdrop_description, film.title
+                    ),
+                    modifier = Modifier.fillMaxWidth(),
+                    alpha = 0.3f
+                )
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                ) {
+                    Text(
+                        text = film.title,
+                        style = MaterialTheme.typography.headlineMedium,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(vertical = 16.dp)
+                    )
+                    Text(
+                        text = film.headline,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontStyle = FontStyle.Italic,
+                        fontWeight = FontWeight.Normal,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
             Column(modifier = Modifier.padding(all = 8.dp)) {
-                Text(text = film.title, style = MaterialTheme.typography.headlineMedium)
                 LazyRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                     items(film.genres) {
                         GenrePill(genre = it)
@@ -267,7 +296,9 @@ fun FilmDetails(
                     textAlign = TextAlign.Justify
                 )
                 Text(
-                    text = stringResource(id = R.string.duration_label, film.duration.toString()),
+                    text = stringResource(
+                        id = R.string.duration_label, film.duration.toString()
+                    ),
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(top = 2.dp)
                 )
