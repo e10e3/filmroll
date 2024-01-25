@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.util.Size
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.camera.core.CameraSelector
@@ -130,12 +129,10 @@ fun CameraView(onScan: (Int) -> Unit) {
         val selector =
             CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build()
         preview.setSurfaceProvider(previewView.surfaceProvider)
-        val imageAnalysis = ImageAnalysis.Builder().setTargetResolution(
-            Size(
-                previewView.width, previewView.height
-            )
-        ).setBackpressureStrategy(STRATEGY_KEEP_ONLY_LATEST).build()
-        imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(context),
+        val imageAnalysis =
+            ImageAnalysis.Builder().setBackpressureStrategy(STRATEGY_KEEP_ONLY_LATEST).build()
+        imageAnalysis.setAnalyzer(
+            ContextCompat.getMainExecutor(context),
             QRCodeImageAnalyser { resultValue: Int ->
                 onScan(resultValue)
             })
