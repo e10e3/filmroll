@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace 'fr.epf.matmob.filmroll'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "fr.epf.matmob.filmroll"
         minSdk 24
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
