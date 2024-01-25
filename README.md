@@ -47,10 +47,18 @@ Compiling the app
 
 Use the `gradlew` script corresponding to your operating system.
 
-On Unix-likes:
-
+On Unix-likes, use the following command to compile the app:
 ```shell
-./gradlew
+./gradlew assemble
+```
+
+The APKs for the _debug_ and _release_ variants are located in their respective
+directories under `app/build/outputs/apk`.
+
+If instead you want to install the app directly on a phone, use the following
+command:
+```shell
+./gradlew installRelease
 ```
 
 Architecture
