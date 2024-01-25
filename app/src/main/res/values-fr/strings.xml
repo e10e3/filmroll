@@ -22,7 +22,7 @@
     <string name="ask_camera_permission_short">L\'usage de la caméra est important pour cette application. Autorisez l\'usage de la caméra pour continuer.</string>
     <string name="ask_camera_permission_long">La permission d\'utiliser la caméra est nécessaire pour faire fonctionner cette fonctionnalité. Vous pouvez avoir besoin d\'aller dans les paramètres pour accorder la permission.</string>
     <string name="enable_camera_button_text">Activer la caméra</string>
-    <string name="recommended_films_title">Films recommendés</string>
+    <string name="recommended_films_title">Films recommandés</string>
     <string name="film_backdrop_description">Image de fond du film %1$s</string>
     <string name="person_profile_picture_description">Photo de profil pour %1$s</string>
     <string name="loading_screen_message">Chargement…</string>
