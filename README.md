@@ -67,33 +67,7 @@ Architecture
 The application internal architecture is structured according to the Android
 recommendations.
 
-```
-                  ┌───────────┐
-                  │           │
-                  │   Logic   │
-                  │           │
-                  └─────┬─────┘
-                        │
-                 ┌──────▼──────┐
-                 │             │
-                 │  ViewModel  │
-                 │             │
-                 └──────┬──────┘
-                        │
-                 ┌──────▼─────┐
-                 │            │
-                 │ Repository │
-                 │            │
-                 └──────┬─────┘
-                        │
-                ┌───────┴───────┐
-                │               │
-         ┌──────▼─────┐    ┌────▼────┐
-         │            │    │         │
-         │  Database  │    │   API   │
-         │            │    │         │
-         └────────────┘    └─────────┘
-```
+![The technical architecture diagram of the application](architecture-diagram.png)
 
 License
 -------
