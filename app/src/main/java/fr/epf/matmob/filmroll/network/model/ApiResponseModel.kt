@@ -5,7 +5,6 @@ import fr.epf.matmob.filmroll.model.Film
 import fr.epf.matmob.filmroll.model.Genre
 import fr.epf.matmob.filmroll.model.LiteFilm
 import fr.epf.matmob.filmroll.model.Person
-import kotlin.streams.toList
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
@@ -66,9 +65,9 @@ data class ResponseExtendedFilm(
                 status,
                 adult
             ),
-            credits.cast.stream().map { it.toPerson() }.toList(),
-            credits.crew.stream().map { it.toPerson() }.toList(),
-            recommendations.results.stream().map { it.toLiteFilm() }.toList()
+            credits.cast.map { it.toPerson() },
+            credits.crew.map { it.toPerson() },
+            recommendations.results.map { it.toLiteFilm() }
         )
     }
 }

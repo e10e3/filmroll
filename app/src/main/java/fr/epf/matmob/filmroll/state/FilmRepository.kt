@@ -6,7 +6,6 @@ import fr.epf.matmob.filmroll.model.FavouriteFilm
 import fr.epf.matmob.filmroll.model.LiteFilm
 import fr.epf.matmob.filmroll.network.TmdbService
 import kotlinx.coroutines.flow.Flow
-import kotlin.streams.toList
 
 /**
  * Allows to seamlessly access the data, may it be from the APi or the database.
@@ -22,11 +21,11 @@ class FilmRepository(private val APIService: TmdbService, private val dao: FilmD
 
     suspend fun searchFilm(query: String): List<LiteFilm> = APIService.searchFilm(
         query, AppConfiguration.appLanguage, AppConfiguration.appRegion
-    ).results.stream().map { it.toLiteFilm() }.toList()
+    ).results.map { it.toLiteFilm() }
 
     suspend fun getPopularFilms(): List<LiteFilm> = APIService.getPopularFilms(
         AppConfiguration.appLanguage, AppConfiguration.appRegion
-    ).results.stream().map { it.toLiteFilm() }.toList()
+    ).results.map { it.toLiteFilm() }
 
     suspend fun insertFavourite(film: FavouriteFilm) = dao.insertFavourite(film)
 
