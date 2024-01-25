@@ -20,16 +20,9 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-# Suppress Warnings
--dontwarn org.bouncycastle.jsse.BCSSLParameters
--dontwarn org.bouncycastle.jsse.BCSSLSocket
--dontwarn org.bouncycastle.jsse.provider.BouncyCastleJsseProvider
--dontwarn org.conscrypt.Conscrypt$Version
--dontwarn org.conscrypt.Conscrypt
--dontwarn org.conscrypt.ConscryptHostnameVerifier
--dontwarn org.openjsse.javax.net.ssl.SSLParameters
--dontwarn org.openjsse.javax.net.ssl.SSLSocket
--dontwarn org.openjsse.net.ssl.OpenJSSE
+# Suppress warnings for okhttp
+-dontwarn okhttp3.**
+-dontwarn okio.**
 
 ## My package
 -keep class fr.epf.matmob.filmroll.network.model.** {*;}
@@ -49,9 +42,6 @@
 -keepclassmembers,allowshrinking,allowobfuscation interface * {
     @retrofit2.http.* <methods>;
 }
-
-# Ignore annotation used for build tooling.
--dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 
 # Ignore JSR 305 annotations for embedding nullability information.
 -dontwarn javax.annotation.**
