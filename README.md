@@ -31,8 +31,8 @@ Features
 Configuring
 ------------
 
-Create the `gradle.properties` file in your user's `.gradle/` directory if it
-doesn't exist, located for instance at `~/.gradle/gradle.properties`.
+Create the `gradle.properties` file if it doesn't exist in Gradle's
+configuration directory, located for instance at `~/.gradle/gradle.properties`.
 
 In this file, write the line
 ```gradle
@@ -72,8 +72,11 @@ recommendations.
 License
 -------
 
-This project is distributed under the GPL v3 licence, or any later version. See the LICENCE file.
+This project is distributed under the GPL v3 licence, or any later version. See
+the LICENCE.md file.
 
-Some code comes from examples of the Android documentation, distributed under the Apache 2 licence.
+Some code comes from examples of the Android documentation, distributed under
+the Apache 2 licence.
 
-The material icons use in the app are licensed under the Apache 2 licence as well.
+The Material icons used in the app are licensed under the Apache 2 licence as
+well.
